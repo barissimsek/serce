@@ -86,4 +86,30 @@ describe('buildDelay', () => {
     const { delayNode } = buildDelay(ctx, {})
     expect(delayNode.delayTime.value).toBeCloseTo(0.3)
   })
+
+  it('sets feedbackGain value from feedback param', () => {
+    const ctx = new OfflineAudioContext(1, 100, 44100)
+    const { feedbackGain } = buildDelay(ctx, { time: 0.3, feedback: 0.6 })
+    expect(feedbackGain.gain.value).toBeCloseTo(0.6)
+  })
+})
+
+describe('buildDelay render behavior', () => {
+  it('produces audio after note ends due to delay feedback', async () => {
+    // 2-second buffer: note plays for 0.1s, delay tail should extend into rest of buffer
+    const ctx = new OfflineAudioContext(1, 44100 * 2, 44100)
+    const effects: EffectIR[] = [{ type: 'delay', params: { time: 0.2, feedback: 0.6 } }]
+    const entry = buildEffectChain(ctx, effects)
+    const osc = ctx.createOscillator()
+    osc.frequency.value = 440
+    osc.connect(entry)
+    osc.start(0)
+    osc.stop(0.1)
+    const buf = await ctx.startRendering()
+    const samples = buf.getChannelData(0)
+    // Check for signal in the range 0.3s–0.5s (after the note has fully ended + initial delay)
+    const tail = Array.from(samples.slice(Math.floor(0.3 * 44100), Math.floor(0.5 * 44100)))
+    const maxTail = tail.reduce((m, v) => Math.max(m, Math.abs(v)), 0)
+    expect(maxTail).toBeGreaterThan(0)
+  })
 })

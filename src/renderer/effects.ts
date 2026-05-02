@@ -57,6 +57,7 @@ export interface DelayChain {
   input: GainNode
   output: GainNode
   delayNode: DelayNode
+  feedbackGain: GainNode
 }
 
 export function buildDelay(ctx: OfflineAudioContext, params: Record<string, number>): DelayChain {
@@ -71,20 +72,25 @@ export function buildDelay(ctx: OfflineAudioContext, params: Record<string, numb
 
   delayNode.delayTime.value = time
   feedbackGain.gain.value = feedback
+  dryGain.gain.value = 0.5
+
+  const wetGain = ctx.createGain()
+  wetGain.gain.value = 0.5
 
   // Dry path: input → dryGain → output
   input.connect(dryGain)
   dryGain.connect(output)
 
-  // Wet path: input → delayNode → output
+  // Wet path: input → delayNode → wetGain → output
   input.connect(delayNode)
-  delayNode.connect(output)
+  delayNode.connect(wetGain)
+  wetGain.connect(output)
 
   // Feedback loop: delayNode → feedbackGain → delayNode
   delayNode.connect(feedbackGain)
   feedbackGain.connect(delayNode)
 
-  return { input, output, delayNode }
+  return { input, output, delayNode, feedbackGain }
 }
 
 function connectEffect(ctx: OfflineAudioContext, fx: EffectIR): EffectChain {
