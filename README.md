@@ -1,6 +1,4 @@
-# Serce Music Language — Design Spec
-
-**Date:** 2026-05-01
+# Serce Music Language
 
 ## Overview
 
