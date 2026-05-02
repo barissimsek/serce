@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { OfflineAudioContext } from 'node-web-audio-api'
 import { buildEffectChain, buildDistortion, buildReverb, buildDelay } from '../../src/renderer/effects.js'
+import type { EffectIR } from '../../src/ir/types.js'
 
 describe('buildEffectChain', () => {
   it('with empty effects array, passes signal through to destination', async () => {
@@ -21,6 +22,24 @@ describe('buildEffectChain', () => {
     const ctx = new OfflineAudioContext(1, 44100, 44100)
     expect(() => buildEffectChain(ctx, [{ type: 'chorus', params: {} }]))
       .toThrow('Unsupported effect: chorus')
+  })
+
+  it('with two chained effects, passes signal through to destination', async () => {
+    const ctx = new OfflineAudioContext(2, 44100 * 4, 44100)
+    const effects: EffectIR[] = [
+      { type: 'distortion', params: { amount: 0.5 } },
+      { type: 'reverb',     params: { decay: 1.0 } },
+    ]
+    const entry = buildEffectChain(ctx, effects)
+    const osc = ctx.createOscillator()
+    osc.frequency.value = 440
+    osc.connect(entry)
+    osc.start(0)
+    osc.stop(0.1)
+    const buf = await ctx.startRendering()
+    const samples = buf.getChannelData(0)
+    const max = samples.reduce((m, v) => Math.max(m, Math.abs(v)), 0)
+    expect(max).toBeGreaterThan(0)
   })
 })
 
