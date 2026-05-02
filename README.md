@@ -4,8 +4,6 @@
 
 Serce is a text-based music composition language with a compiler. Musicians write `.serce` files describing tracks, bars, notes, and effects; the compiler produces a `.wav` audio file. The language is designed for musicians, not programmers — syntax is minimal and visually familiar.
 
----
-
 ## 1. Language Syntax
 
 ### File extension
@@ -141,8 +139,6 @@ track guitar sawtooth
 
 All parameters are optional and fall back to defaults. Effects are parsed and stored in the IR but are not yet applied by the v1 renderer — audio output is dry.
 
----
-
 ## 2. Compiler Architecture
 
 ### Two-phase pipeline
@@ -250,8 +246,6 @@ serce/
 
 Sampled instruments (piano, guitar, drums) are a future addition.
 
----
-
 ## 4. CLI Interface
 
 ```
@@ -269,8 +263,6 @@ npm run build
 node dist/cli/index.js compile /path/to/song
 node dist/cli/index.js run /path/to/song
 ```
-
----
 
 ## 5. Error Format
 
