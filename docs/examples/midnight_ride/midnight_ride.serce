@@ -1,8 +1,7 @@
 section intro @tempo 140
   track guitar sawtooth
-    effect distortion amount:0.7
     effect delay time:0.3 feedback:0.3
-    effect reverb decay:1.5
+    effect reverb decay:0.5
     |1| Emin/q Emin/q Emin/q Emin/q
     |2| Cmaj/q Cmaj/q Cmaj/q Cmaj/q
     |3| Gmaj/q Gmaj/q Gmaj/q Gmaj/q
