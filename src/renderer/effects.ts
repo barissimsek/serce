@@ -21,6 +21,24 @@ export function buildEffectChain(ctx: OfflineAudioContext, effects: EffectIR[]):
   return trackInputGain
 }
 
-function connectEffect(_ctx: OfflineAudioContext, fx: EffectIR): EffectChain {
+export function buildDistortion(ctx: OfflineAudioContext, params: Record<string, number>): WaveShaperNode {
+  const amount = params.amount ?? 0.5
+  const samples = 256
+  const curve = new Float32Array(samples)
+  const k = amount * 100
+  for (let i = 0; i < samples; i++) {
+    const x = (i * 2) / samples - 1
+    curve[i] = ((Math.PI + k) * x) / (Math.PI + k * Math.abs(x))
+  }
+  const ws = ctx.createWaveShaper()
+  ws.curve = curve
+  return ws
+}
+
+function connectEffect(ctx: OfflineAudioContext, fx: EffectIR): EffectChain {
+  if (fx.type === 'distortion') {
+    const node = buildDistortion(ctx, fx.params)
+    return { input: node, output: node }
+  }
   throw new Error(`Effect not yet implemented: ${fx.type}`)
 }
