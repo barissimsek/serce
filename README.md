@@ -17,11 +17,14 @@ Serce is a text-based music composition language with a compiler. Musicians writ
 Directives begin with `@`. All global directives must live in `meta.serce` — the single required manifest file in every song directory. Declaring a global directive in any other file is a compile error. `meta.serce` must not contain track or section declarations — it is metadata only.
 
 ```
-@song   my_song       ← required
-@author John Doe      ← required
-@tempo  120           ← required, beats per minute
-@time   4/4           ← optional, defaults to 4/4
+@song     my_song           ← required
+@author   John Doe          ← required
+@tempo    120               ← required, beats per minute
+@sections intro verse outro ← required, space-separated section names in playback order
+@time     4/4               ← optional, defaults to 4/4
 ```
+
+`@sections` controls which sections are included and their playback order. Sections present in `.serce` files but absent from `@sections` are ignored. Section names that appear in `@sections` but have no corresponding `section` declaration are skipped with a warning. Top-level tracks (outside any `section` block) belong to the implicit `default` section — use `@sections default` for single-section songs.
 
 Each required directive must appear exactly once. Declaring the same directive twice is a compile error.
 

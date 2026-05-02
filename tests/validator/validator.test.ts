@@ -7,10 +7,12 @@ function song(...sources: [string, string][]) {
   return mergeFiles(sources.map(([src, path]) => parseFile(src, path)))
 }
 
+const META = '@song x\n@author y\n@tempo 120\n@sections default\n'
+
 describe('validate', () => {
   it('passes a valid single-file song', () => {
     const ast = song(
-      ['@song x\n@author y\n@tempo 120\n', 'meta.serce'],
+      [META, 'meta.serce'],
       ['track bass sine\n  |1| C4/q D4/q E4/q G4/q\n', 'bass.serce']
     )
     expect(validate(ast, ['meta.serce', 'bass.serce'])).toHaveLength(0)
@@ -23,26 +25,38 @@ describe('validate', () => {
   })
 
   it('errors when @author is missing', () => {
-    const ast = song(['@song x\n@tempo 120\n', 'meta.serce'])
+    const ast = song(['@song x\n@tempo 120\n@sections default\n', 'meta.serce'])
     const errors = validate(ast, ['meta.serce'])
     expect(errors.some(e => e.message.includes('@author'))).toBe(true)
   })
 
   it('errors when @song is missing', () => {
-    const ast = song(['@author y\n@tempo 120\n', 'meta.serce'])
+    const ast = song(['@author y\n@tempo 120\n@sections default\n', 'meta.serce'])
     const errors = validate(ast, ['meta.serce'])
     expect(errors.some(e => e.message.includes('@song'))).toBe(true)
   })
 
   it('errors when @tempo is missing', () => {
-    const ast = song(['@song x\n@author y\n', 'meta.serce'])
+    const ast = song(['@song x\n@author y\n@sections default\n', 'meta.serce'])
     const errors = validate(ast, ['meta.serce'])
     expect(errors.some(e => e.message.includes('@tempo'))).toBe(true)
   })
 
+  it('errors when @sections is missing', () => {
+    const ast = song(['@song x\n@author y\n@tempo 120\n', 'meta.serce'])
+    const errors = validate(ast, ['meta.serce'])
+    expect(errors.some(e => e.message.includes('@sections'))).toBe(true)
+  })
+
+  it('errors when @sections is declared twice', () => {
+    const ast = song(['@song x\n@author y\n@tempo 120\n@sections default\n@sections intro\n', 'meta.serce'])
+    const errors = validate(ast, ['meta.serce'])
+    expect(errors.some(e => e.message.includes('@sections') && e.message.includes('2 times'))).toBe(true)
+  })
+
   it('errors on duplicate track names within the same section', () => {
     const ast = song(
-      ['@song x\n@author y\n@tempo 120\n', 'meta.serce'],
+      [META, 'meta.serce'],
       ['track bass sine\n  |1| C4/w\n', 'a.serce'],
       ['track bass sine\n  |1| G4/w\n', 'b.serce']
     )
@@ -53,7 +67,7 @@ describe('validate', () => {
   it('errors when bar durations do not sum to time signature', () => {
     // 4/4 expects 4 beats; two quarter notes = 2 beats
     const ast = song(
-      ['@song x\n@author y\n@tempo 120\n', 'meta.serce'],
+      [META, 'meta.serce'],
       ['track bass sine\n  |1| C4/q D4/q\n', 'bass.serce']
     )
     const errors = validate(ast, ['meta.serce', 'bass.serce'])
@@ -66,7 +80,7 @@ describe('validate', () => {
     // and are dropped by the parser's else-break guard. The validator's validateChordName
     // function acts as a safety net but is not triggered in practice.
     const ast = song(
-      ['@song x\n@author y\n@tempo 120\n', 'meta.serce'],
+      [META, 'meta.serce'],
       ['track bass sine\n  |1| Cblue/w\n', 'bass.serce']
     )
     const errors = validate(ast, ['meta.serce', 'bass.serce'])
@@ -75,7 +89,7 @@ describe('validate', () => {
 
   it('errors when a required directive is declared twice', () => {
     const ast = song(
-      ['@song x\n@author y\n@tempo 120\n@tempo 90\n', 'meta.serce']
+      ['@song x\n@author y\n@tempo 120\n@sections default\n@tempo 90\n', 'meta.serce']
     )
     const errors = validate(ast, ['meta.serce'])
     expect(errors.some(e => e.message.includes('@tempo') && e.message.includes('2 times'))).toBe(true)
@@ -83,7 +97,7 @@ describe('validate', () => {
 
   it('errors when bars are not sequential', () => {
     const ast = song(
-      ['@song x\n@author y\n@tempo 120\n', 'meta.serce'],
+      [META, 'meta.serce'],
       ['track bass sine\n  |1| C4/w\n  |3| E4/w\n', 'bass.serce']
     )
     const errors = validate(ast, ['meta.serce', 'bass.serce'])
@@ -92,7 +106,7 @@ describe('validate', () => {
 
   it('errors when directive appears in non-meta.serce file', () => {
     const ast = song(
-      ['@song x\n@author y\n@tempo 120\n', 'meta.serce'],
+      [META, 'meta.serce'],
       ['@tempo 90\ntrack bass sine\n  |1| C4/w\n', 'bass.serce']
     )
     const errors = validate(ast, ['meta.serce', 'bass.serce'])

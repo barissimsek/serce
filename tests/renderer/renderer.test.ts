@@ -10,7 +10,7 @@ function irFrom(...sources: [string, string][]) {
 describe('render', () => {
   it('returns an AudioBuffer', async () => {
     const ir = irFrom(
-      ['@song x\n@author y\n@tempo 120\n', 'meta.serce'],
+      ['@song x\n@author y\n@tempo 120\n@sections default\n', 'meta.serce'],
       ['track bass sine\n  |1| C4/q D4/q E4/q G4/q\n', 'bass.serce']
     )
     const buf = await render(ir)
@@ -21,7 +21,7 @@ describe('render', () => {
 
   it('produces non-silent output for a note', async () => {
     const ir = irFrom(
-      ['@song x\n@author y\n@tempo 120\n', 'meta.serce'],
+      ['@song x\n@author y\n@tempo 120\n@sections default\n', 'meta.serce'],
       ['track bass sine\n  |1| A4/w\n', 'bass.serce']
     )
     const buf = await render(ir)
@@ -32,7 +32,7 @@ describe('render', () => {
 
   it('produces silence for a rest', async () => {
     const ir = irFrom(
-      ['@song x\n@author y\n@tempo 120\n', 'meta.serce'],
+      ['@song x\n@author y\n@tempo 120\n@sections default\n', 'meta.serce'],
       ['track bass sine\n  |1| -/w\n', 'bass.serce']
     )
     const buf = await render(ir)
@@ -43,7 +43,7 @@ describe('render', () => {
 
   it('duration matches tempo: 1 bar of 4/4 at 120bpm = 2 seconds', async () => {
     const ir = irFrom(
-      ['@song x\n@author y\n@tempo 120\n', 'meta.serce'],
+      ['@song x\n@author y\n@tempo 120\n@sections default\n', 'meta.serce'],
       ['track bass sine\n  |1| C4/w\n', 'bass.serce']
     )
     const buf = await render(ir)

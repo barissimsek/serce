@@ -21,7 +21,7 @@ export function validate(ast: SongAST, filePaths: string[]): ValidationError[] {
   }
 
   // Required directives
-  for (const key of ['song', 'author', 'tempo'] as const) {
+  for (const key of ['song', 'author', 'tempo', 'sections'] as const) {
     const found = ast.directives.filter(d => d.key === key)
     if (found.length === 0) {
       err('meta.serce', null, `missing required directive @${key}`)

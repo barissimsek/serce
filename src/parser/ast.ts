@@ -10,7 +10,7 @@ export interface FileAST {
 }
 
 export interface DirectiveNode {
-  key: 'song' | 'author' | 'tempo' | 'time'
+  key: 'song' | 'author' | 'tempo' | 'time' | 'sections'
   value: string
   line: number
   filePath: string

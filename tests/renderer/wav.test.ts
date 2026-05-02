@@ -6,7 +6,7 @@ import { parseFile, mergeFiles } from '../../src/parser/parser.js'
 
 async function renderSimple() {
   const ir = buildIR(mergeFiles([
-    parseFile('@song x\n@author y\n@tempo 120\n', 'meta.serce'),
+    parseFile('@song x\n@author y\n@tempo 120\n@sections default\n', 'meta.serce'),
     parseFile('track bass sine\n  |1| C4/w\n', 'bass.serce'),
   ]))
   return render(ir)

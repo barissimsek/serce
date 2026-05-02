@@ -1,6 +1,6 @@
 import { SongAST, SectionNode, TrackNode, BarNode, EventNode } from '../parser/ast.js'
 import {
-  SongIR, SongMeta, SectionIR, TrackIR, EffectIR, BarIR, EventIR
+  SongIR, SongMeta, SectionIR, TrackIR, BarIR, EventIR
 } from './types.js'
 
 export function buildIR(ast: SongAST): SongIR {
@@ -12,7 +12,17 @@ export function buildIR(ast: SongAST): SongIR {
     time:   get('time') || '4/4',
   }
 
-  const sections: SectionIR[] = ast.sections.map(s => buildSection(s, meta.tempo))
+  const sectionsValue = get('sections')
+  const sectionNames = sectionsValue.trim().split(/\s+/).filter(Boolean)
+  const byName = new Map(ast.sections.map(s => [s.name, s]))
+  for (const name of sectionNames) {
+    if (!byName.has(name)) {
+      console.warn(`warning  meta.serce               @sections references "${name}" but no such section was found — skipping`)
+    }
+  }
+  const sections: SectionIR[] = sectionNames
+    .filter(name => byName.has(name))
+    .map(name => buildSection(byName.get(name)!, meta.tempo))
   return { meta, sections }
 }
 

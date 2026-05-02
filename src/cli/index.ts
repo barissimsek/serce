@@ -2,16 +2,16 @@
 import { readFileSync, readdirSync, writeFileSync, unlinkSync } from 'fs'
 import { join } from 'path'
 import { tmpdir } from 'os'
-import { execFileSync } from 'child_process'
+import { spawn } from 'child_process'
 import { fileURLToPath } from 'url'
 import { Command } from 'commander'
 import { parseFile, mergeFiles } from '../parser/parser.js'
 import { validate, ValidationError } from '../validator/validator.js'
 import { buildIR } from '../ir/builder.js'
-import { render } from '../renderer/renderer.js'
+import { render, sectionStartTimes } from '../renderer/renderer.js'
 import { audioBufferToWav } from '../renderer/wav.js'
 
-export async function compile(dir: string): Promise<ValidationError[]> {
+export async function compile(dir: string, follow = false): Promise<ValidationError[]> {
   const { ast, filePaths } = loadSong(dir)
   const errors = validate(ast, filePaths)
   if (errors.length) {
@@ -20,9 +20,10 @@ export async function compile(dir: string): Promise<ValidationError[]> {
   }
 
   const ir = buildIR(ast)
+  const onSection = follow ? (name: string) => console.log(`info  ${name}`) : undefined
   let audioBuffer: Awaited<ReturnType<typeof render>>
   try {
-    audioBuffer = await render(ir)
+    audioBuffer = await render(ir, onSection)
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e)
     printErrors([{ file: 'renderer', line: null, message }])
@@ -35,7 +36,7 @@ export async function compile(dir: string): Promise<ValidationError[]> {
   return []
 }
 
-export async function run(dir: string): Promise<ValidationError[]> {
+export async function run(dir: string, follow = false): Promise<ValidationError[]> {
   const { ast, filePaths } = loadSong(dir)
   const errors = validate(ast, filePaths)
   if (errors.length) {
@@ -57,14 +58,26 @@ export async function run(dir: string): Promise<ValidationError[]> {
   writeFileSync(tmpPath, wav)
 
   const cleanup = () => { try { unlinkSync(tmpPath) } catch {} }
-  process.once('SIGINT', () => { cleanup(); process.exit(130) })
+
+  const timers: ReturnType<typeof setTimeout>[] = []
+  if (follow) {
+    for (const { name, startSeconds } of sectionStartTimes(ir)) {
+      timers.push(setTimeout(() => console.log(`info  ${name}`), startSeconds * 1000))
+    }
+  }
 
   console.log(`♪ playing ${ir.meta.song}`)
+  const playPromise = playWav(tmpPath)
+
+  const onSigint = () => { timers.forEach(clearTimeout); cleanup(); process.exit(130) }
+  process.once('SIGINT', onSigint)
+
   try {
-    playWav(tmpPath)
+    await playPromise
   } finally {
+    timers.forEach(clearTimeout)
     cleanup()
-    process.removeAllListeners('SIGINT')
+    process.removeListener('SIGINT', onSigint)
   }
   return []
 }
@@ -104,13 +117,19 @@ function loadSong(dir: string) {
   return { ast: mergeFiles(fileASTs), filePaths }
 }
 
-function playWav(path: string): void {
+function playWav(path: string): Promise<void> {
+  let cmd: string, args: string[]
   switch (process.platform) {
-    case 'darwin': execFileSync('afplay', [path]); break
-    case 'linux':  execFileSync('aplay', [path]); break
-    case 'win32':  execFileSync('powershell', ['-c', `(New-Object Media.SoundPlayer '${path}').PlaySync()`]); break
-    default: throw new Error(`No audio player available for platform: ${process.platform}`)
+    case 'darwin': cmd = 'afplay';      args = [path]; break
+    case 'linux':  cmd = 'aplay';       args = [path]; break
+    case 'win32':  cmd = 'powershell';  args = ['-c', `(New-Object Media.SoundPlayer '${path}').PlaySync()`]; break
+    default: return Promise.reject(new Error(`No audio player available for platform: ${process.platform}`))
   }
+  return new Promise((resolve, reject) => {
+    const child = spawn(cmd, args, { stdio: 'inherit' })
+    child.once('close', code => (code === 0 || code === null) ? resolve() : reject(new Error(`Player exited with code ${code}`)))
+    child.once('error', reject)
+  })
 }
 
 function printErrors(errors: ValidationError[]) {
@@ -131,16 +150,18 @@ program
   .command('compile <dir>')
   .description('Compile .serce files in <dir> to a WAV file')
   .option('--ir', 'Emit IR JSON instead of audio')
-  .action(async (dir: string, opts: { ir?: boolean }) => {
-    const errors = opts.ir ? await compileIR(dir) : await compile(dir)
+  .option('--follow', 'Print section names as they are rendered')
+  .action(async (dir: string, opts: { ir?: boolean; follow?: boolean }) => {
+    const errors = opts.ir ? await compileIR(dir) : await compile(dir, opts.follow)
     if (errors.length) process.exit(1)
   })
 
 program
   .command('run <dir>')
   .description('Compile and play .serce files in <dir>')
-  .action(async (dir: string) => {
-    const errors = await run(dir)
+  .option('--follow', 'Print section names in sync with playback')
+  .action(async (dir: string, opts: { follow?: boolean }) => {
+    const errors = await run(dir, opts.follow)
     if (errors.length) process.exit(1)
   })
 

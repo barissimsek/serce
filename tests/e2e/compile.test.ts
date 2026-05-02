@@ -18,7 +18,7 @@ describe('compile', () => {
 
   it('compiles a valid project to a WAV file', async () => {
     writeProject({
-      'meta.serce': '@song hello\n@author Test\n@tempo 120\n',
+      'meta.serce': '@song hello\n@author Test\n@tempo 120\n@sections default\n',
       'bass.serce': 'track bass sine\n  |1| C4/q D4/q E4/q G4/q\n',
     })
     await compile(TMP)
@@ -37,7 +37,7 @@ describe('compile', () => {
 describe('check', () => {
   it('returns no errors for a valid project', async () => {
     writeProject({
-      'meta.serce': '@song x\n@author y\n@tempo 90\n',
+      'meta.serce': '@song x\n@author y\n@tempo 90\n@sections default\n',
       'track.serce': 'track piano square\n  |1| E4/w\n',
     })
     const errors = await check(TMP)
