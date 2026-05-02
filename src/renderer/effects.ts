@@ -17,6 +17,7 @@ export function buildEffectChain(ctx: OfflineAudioContext, effects: EffectIR[]):
   }
   current.connect(ctx.destination)
 
+  // Connect your audio source to the returned GainNode; it is the chain entry point
   return trackInputGain
 }
 
