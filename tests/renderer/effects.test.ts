@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { OfflineAudioContext } from 'node-web-audio-api'
-import { buildEffectChain, buildDistortion } from '../../src/renderer/effects.js'
+import { buildEffectChain, buildDistortion, buildReverb } from '../../src/renderer/effects.js'
 
 describe('buildEffectChain', () => {
   it('with empty effects array, passes signal through to destination', async () => {
@@ -19,8 +19,8 @@ describe('buildEffectChain', () => {
 
   it('throws for unimplemented effect types', () => {
     const ctx = new OfflineAudioContext(1, 44100, 44100)
-    expect(() => buildEffectChain(ctx, [{ type: 'reverb', params: {} }]))
-      .toThrow('Effect not yet implemented: reverb')
+    expect(() => buildEffectChain(ctx, [{ type: 'delay', params: {} }]))
+      .toThrow('Effect not yet implemented: delay')
   })
 })
 
@@ -37,5 +37,20 @@ describe('buildDistortion', () => {
     const node = buildDistortion(ctx, {})
     expect(node.curve).not.toBeNull()
     expect(node.curve!.length).toBe(256)
+  })
+})
+
+describe('buildReverb', () => {
+  it('sets ConvolverNode buffer length from decay param', () => {
+    const ctx = new OfflineAudioContext(1, 100, 44100)
+    const node = buildReverb(ctx, { decay: 2.0 })
+    expect(node.buffer).not.toBeNull()
+    expect(node.buffer!.length).toBe(Math.ceil(2.0 * 44100))
+  })
+
+  it('uses default decay 1.5 when param is omitted', () => {
+    const ctx = new OfflineAudioContext(1, 100, 44100)
+    const node = buildReverb(ctx, {})
+    expect(node.buffer!.length).toBe(Math.ceil(1.5 * 44100))
   })
 })
