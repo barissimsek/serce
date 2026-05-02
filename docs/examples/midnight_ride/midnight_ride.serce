@@ -2,6 +2,7 @@ section intro @tempo 140
   track guitar sawtooth
     effect distortion amount:0.7
     effect delay time:0.3 feedback:0.3
+    effect reverb decay:1.5
     |1| Emin/q Emin/q Emin/q Emin/q
     |2| Cmaj/q Cmaj/q Cmaj/q Cmaj/q
     |3| Gmaj/q Gmaj/q Gmaj/q Gmaj/q
@@ -44,6 +45,8 @@ section verse
     |8| D2/h E2/h
 
   track lead square
+    effect distortion amount:0.3
+    effect reverb decay:1.0
     |1| B4/q B4/q A4/h
     |2| G4/q G4/q E4/h
     |3| G4/q A4/q B4/h
@@ -76,6 +79,8 @@ section refrain @tempo 148
     |8| D2/q D2/q E2/h
 
   track lead square
+    effect distortion amount:0.6
+    effect reverb decay:2.0
     |1| E5/h D5/h
     |2| C5/h B4/h
     |3| G4/q A4/q B4/q C5/q
