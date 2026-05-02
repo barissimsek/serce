@@ -2,6 +2,7 @@ import { OfflineAudioContext } from 'node-web-audio-api'
 import { SongIR, SectionIR, EventIR, Instrument } from '../ir/types.js'
 import { pitchToFrequency } from './notes.js'
 import { chordToFrequencies } from './chords.js'
+import { buildEffectChain } from './effects.js'
 
 const SAMPLE_RATE = 44100
 const DURATION_BEATS: Record<string, number> = { w: 4, h: 2, q: 1, e: 0.5, s: 0.25 }
@@ -25,9 +26,10 @@ function renderSection(ctx: OfflineAudioContext, section: SectionIR, startTime: 
   const barDuration = (beatsPerBar / section.tempo) * 60  // seconds per bar
 
   for (const track of section.tracks) {
+    const destination = buildEffectChain(ctx, track.effects)
     let barStart = startTime
     for (const bar of track.bars) {
-      renderBar(ctx, bar.events, track.instrument, barStart, barDuration, beatsPerBar)
+      renderBar(ctx, bar.events, track.instrument, barStart, barDuration, beatsPerBar, destination)
       barStart += barDuration
     }
   }
@@ -39,7 +41,8 @@ function renderBar(
   instrument: Instrument,
   barStart: number,
   barDuration: number,
-  beatsPerBar: number
+  beatsPerBar: number,
+  destination: AudioNode
 ) {
   const beatDuration = barDuration / beatsPerBar
   let offset = 0
@@ -49,14 +52,14 @@ function renderBar(
     const duration = beats * beatDuration
 
     if (event.type === 'note') {
-      playFrequency(ctx, pitchToFrequency(event.pitch), instrument, barStart + offset, duration)
+      playFrequency(ctx, pitchToFrequency(event.pitch), instrument, barStart + offset, duration, destination)
     } else if (event.type === 'chord') {
       for (const freq of chordToFrequencies(event.name, event.octave)) {
-        playFrequency(ctx, freq, instrument, barStart + offset, duration)
+        playFrequency(ctx, freq, instrument, barStart + offset, duration, destination)
       }
     } else if (event.type === 'inline_chord') {
       for (const pitch of event.pitches) {
-        playFrequency(ctx, pitchToFrequency(pitch), instrument, barStart + offset, duration)
+        playFrequency(ctx, pitchToFrequency(pitch), instrument, barStart + offset, duration, destination)
       }
     }
     // rest: advance offset without scheduling anything
@@ -70,7 +73,8 @@ function playFrequency(
   freq: number,
   instrument: Instrument,
   startTime: number,
-  duration: number
+  duration: number,
+  destination: AudioNode
 ) {
   const osc = ctx.createOscillator()
   const gain = ctx.createGain()
@@ -85,7 +89,7 @@ function playFrequency(
   gain.gain.linearRampToValueAtTime(0, startTime + duration)
 
   osc.connect(gain)
-  gain.connect(ctx.destination)
+  gain.connect(destination)
 
   osc.start(startTime)
   osc.stop(startTime + duration)
