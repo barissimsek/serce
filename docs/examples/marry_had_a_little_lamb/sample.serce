@@ -1,0 +1,19 @@
+track melody sine
+  |1| E4/q D4/q C4/q D4/q
+  |2| E4/q E4/q E4/h
+  |3| D4/q D4/q D4/h
+  |4| E4/q G4/q G4/h
+  |5| E4/q D4/q C4/q D4/q
+  |6| E4/q E4/q E4/q E4/q
+  |7| D4/q D4/q E4/q D4/q
+  |8| C4/w
+
+track bass triangle
+  |1| C2/w
+  |2| C2/h G2/h
+  |3| G2/w
+  |4| C2/w
+  |5| C2/w
+  |6| C2/h G2/h
+  |7| G2/w
+  |8| C2/w

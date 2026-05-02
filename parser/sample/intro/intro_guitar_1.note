@@ -1,8 +1,0 @@
-###
-Track name: intro_guitar_1
-###
-
-track(start, end, tempo, volume)
-BEGIN
-    audio('intro.wav')
-END

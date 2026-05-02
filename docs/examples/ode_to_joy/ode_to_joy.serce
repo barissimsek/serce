@@ -1,0 +1,54 @@
+track melody sine
+  |1|  D4/q D4/q E4/q F#4/q
+  |2|  F#4/q E4/q D4/q C#4/q
+  |3|  B3/q B3/q C#4/q D4/q
+  |4|  D4/h C#4/h
+  |5|  D4/q D4/q E4/q F#4/q
+  |6|  F#4/q E4/q D4/q C#4/q
+  |7|  B3/q B3/q C#4/q D4/q
+  |8|  C#4/h B3/h
+  |9|  C#4/q C#4/q D4/q E4/q
+  |10| E4/q D4/q C#4/q B3/q
+  |11| A3/q A3/q B3/q C#4/q
+  |12| D4/h C#4/h
+  |13| D4/q E4/q C#4/q -/q
+  |14| B3/q C#4/q D4/q C#4/q
+  |15| B3/h A3/h
+  |16| D4/w
+
+track harmony square
+  effect reverb decay:1.5
+  |1|  F#4/q F#4/q G4/q A4/q
+  |2|  A4/q G4/q F#4/q E4/q
+  |3|  D4/q D4/q E4/q F#4/q
+  |4|  F#4/h E4/h
+  |5|  F#4/q F#4/q G4/q A4/q
+  |6|  A4/q G4/q F#4/q E4/q
+  |7|  D4/q D4/q E4/q F#4/q
+  |8|  E4/h D4/h
+  |9|  E4/q E4/q F#4/q G4/q
+  |10| G4/q F#4/q E4/q D4/q
+  |11| C#4/q C#4/q D4/q E4/q
+  |12| F#4/h E4/h
+  |13| F#4/q G4/q E4/q -/q
+  |14| D4/q E4/q F#4/q E4/q
+  |15| D4/h C#4/h
+  |16| D4/w
+
+track bass triangle
+  |1|  Dmaj/w
+  |2|  Amaj4/h Dmaj/h
+  |3|  Gmaj/h Dmaj/h
+  |4|  Amaj4/h Dmaj/h
+  |5|  Dmaj/w
+  |6|  Amaj4/h Dmaj/h
+  |7|  Gmaj/h Dmaj/h
+  |8|  Amaj4/h Dmaj/h
+  |9|  Amaj4/w
+  |10| Amaj4/h Dmaj/h
+  |11| Dmaj/h Amaj4/h
+  |12| Dmaj/w
+  |13| Dmaj/h Amaj4/h
+  |14| Gmaj/h Dmaj/h
+  |15| Amaj4/h Dmaj/h
+  |16| Dmaj/w
