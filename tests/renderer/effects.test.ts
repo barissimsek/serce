@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { OfflineAudioContext } from 'node-web-audio-api'
-import { buildEffectChain, buildDistortion, buildReverb } from '../../src/renderer/effects.js'
+import { buildEffectChain, buildDistortion, buildReverb, buildDelay } from '../../src/renderer/effects.js'
 
 describe('buildEffectChain', () => {
   it('with empty effects array, passes signal through to destination', async () => {
@@ -19,8 +19,8 @@ describe('buildEffectChain', () => {
 
   it('throws for unimplemented effect types', () => {
     const ctx = new OfflineAudioContext(1, 44100, 44100)
-    expect(() => buildEffectChain(ctx, [{ type: 'delay', params: {} }]))
-      .toThrow('Effect not yet implemented: delay')
+    expect(() => buildEffectChain(ctx, [{ type: 'chorus', params: {} }]))
+      .toThrow('Unsupported effect: chorus')
   })
 })
 
@@ -52,5 +52,19 @@ describe('buildReverb', () => {
     const ctx = new OfflineAudioContext(1, 100, 44100)
     const node = buildReverb(ctx, {})
     expect(node.buffer!.length).toBe(Math.ceil(1.5 * 44100))
+  })
+})
+
+describe('buildDelay', () => {
+  it('sets DelayNode delayTime from time param', () => {
+    const ctx = new OfflineAudioContext(1, 100, 44100)
+    const { delayNode } = buildDelay(ctx, { time: 0.75, feedback: 0.5 })
+    expect(delayNode.delayTime.value).toBeCloseTo(0.75)
+  })
+
+  it('uses default time 0.3 when param is omitted', () => {
+    const ctx = new OfflineAudioContext(1, 100, 44100)
+    const { delayNode } = buildDelay(ctx, {})
+    expect(delayNode.delayTime.value).toBeCloseTo(0.3)
   })
 })

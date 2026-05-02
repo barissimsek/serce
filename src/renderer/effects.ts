@@ -53,6 +53,40 @@ export function buildReverb(ctx: OfflineAudioContext, params: Record<string, num
   return convolver
 }
 
+export interface DelayChain {
+  input: GainNode
+  output: GainNode
+  delayNode: DelayNode
+}
+
+export function buildDelay(ctx: OfflineAudioContext, params: Record<string, number>): DelayChain {
+  const time = params.time ?? 0.3
+  const feedback = params.feedback ?? 0.4
+
+  const input = ctx.createGain()
+  const delayNode = ctx.createDelay(2.0)
+  const feedbackGain = ctx.createGain()
+  const dryGain = ctx.createGain()
+  const output = ctx.createGain()
+
+  delayNode.delayTime.value = time
+  feedbackGain.gain.value = feedback
+
+  // Dry path: input → dryGain → output
+  input.connect(dryGain)
+  dryGain.connect(output)
+
+  // Wet path: input → delayNode → output
+  input.connect(delayNode)
+  delayNode.connect(output)
+
+  // Feedback loop: delayNode → feedbackGain → delayNode
+  delayNode.connect(feedbackGain)
+  feedbackGain.connect(delayNode)
+
+  return { input, output, delayNode }
+}
+
 function connectEffect(ctx: OfflineAudioContext, fx: EffectIR): EffectChain {
   if (fx.type === 'distortion') {
     const node = buildDistortion(ctx, fx.params)
@@ -62,5 +96,9 @@ function connectEffect(ctx: OfflineAudioContext, fx: EffectIR): EffectChain {
     const node = buildReverb(ctx, fx.params)
     return { input: node, output: node }
   }
-  throw new Error(`Effect not yet implemented: ${fx.type}`)
+  if (fx.type === 'delay') {
+    const { input, output } = buildDelay(ctx, fx.params)
+    return { input, output }
+  }
+  throw new Error(`Unsupported effect: ${fx.type}`)
 }
