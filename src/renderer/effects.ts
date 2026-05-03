@@ -23,21 +23,29 @@ export function buildEffectChain(ctx: OfflineAudioContext, effects: EffectIR[]):
   return trackInputGain
 }
 
-export function buildDistortion(ctx: OfflineAudioContext, params: Record<string, number>): WaveShaperNode {
+export function buildDistortion(ctx: OfflineAudioContext, params: Record<string, number>): EffectChain {
   const amount = params.amount ?? 0.5
+  // drive controls how aggressively the signal is pushed into saturation
+  const drive = 1 + amount * 4
   const samples = 256
   const curve = new Float32Array(samples)
-  const k = amount * 100
   for (let i = 0; i < samples; i++) {
     const x = (i * 2) / samples - 1
-    curve[i] = ((Math.PI + k) * x) / (Math.PI + k * Math.abs(x))
+    // tanh saturation normalised to ±1 at the curve edges
+    curve[i] = Math.tanh(x * drive) / Math.tanh(drive)
   }
   const ws = ctx.createWaveShaper()
   ws.curve = curve
-  return ws
+
+  // Compensate for the gain boost the drive applies to small signals
+  const compensation = ctx.createGain()
+  compensation.gain.value = 1 / drive
+  ws.connect(compensation)
+
+  return { input: ws, output: compensation }
 }
 
-export function buildReverb(ctx: OfflineAudioContext, params: Record<string, number>): ConvolverNode {
+export function buildReverb(ctx: OfflineAudioContext, params: Record<string, number>): EffectChain {
   const decay = params.decay ?? 1.5
   const length = Math.ceil(decay * SAMPLE_RATE)
   const ir = ctx.createBuffer(2, length, SAMPLE_RATE)
@@ -50,7 +58,22 @@ export function buildReverb(ctx: OfflineAudioContext, params: Record<string, num
   }
   const convolver = ctx.createConvolver()
   convolver.buffer = ir
-  return convolver
+
+  const input = ctx.createGain()
+  const dryGain = ctx.createGain()
+  const wetGain = ctx.createGain()
+  const output = ctx.createGain()
+
+  dryGain.gain.value = 0.7
+  wetGain.gain.value = 0.3
+
+  input.connect(dryGain)
+  dryGain.connect(output)
+  input.connect(convolver)
+  convolver.connect(wetGain)
+  wetGain.connect(output)
+
+  return { input, output }
 }
 
 export interface DelayChain {
@@ -72,7 +95,7 @@ export function buildDelay(ctx: OfflineAudioContext, params: Record<string, numb
 
   delayNode.delayTime.value = time
   feedbackGain.gain.value = feedback
-  dryGain.gain.value = 0.5
+  dryGain.gain.value = 1.0
 
   const wetGain = ctx.createGain()
   wetGain.gain.value = 0.5
@@ -94,17 +117,8 @@ export function buildDelay(ctx: OfflineAudioContext, params: Record<string, numb
 }
 
 function connectEffect(ctx: OfflineAudioContext, fx: EffectIR): EffectChain {
-  if (fx.type === 'distortion') {
-    const node = buildDistortion(ctx, fx.params)
-    return { input: node, output: node }
-  }
-  if (fx.type === 'reverb') {
-    const node = buildReverb(ctx, fx.params)
-    return { input: node, output: node }
-  }
-  if (fx.type === 'delay') {
-    const { input, output } = buildDelay(ctx, fx.params)
-    return { input, output }
-  }
+  if (fx.type === 'distortion') return buildDistortion(ctx, fx.params)
+  if (fx.type === 'reverb')     return buildReverb(ctx, fx.params)
+  if (fx.type === 'delay')      return buildDelay(ctx, fx.params)
   throw new Error(`Unsupported effect: ${fx.type}`)
 }

@@ -3,6 +3,7 @@ import { SongIR, SectionIR, EventIR, Instrument } from '../ir/types.js'
 import { pitchToFrequency } from './notes.js'
 import { chordToFrequencies } from './chords.js'
 import { buildEffectChain } from './effects.js'
+import { playInstrumentVoice } from './instruments/index.js'
 
 const SAMPLE_RATE = 44100
 const DURATION_BEATS: Record<string, number> = { w: 4, h: 2, q: 1, e: 0.5, s: 0.25 }
@@ -64,47 +65,20 @@ function renderBar(
     const duration = beats * beatDuration
 
     if (event.type === 'note') {
-      playFrequency(ctx, pitchToFrequency(event.pitch), instrument, barStart + offset, duration, destination)
+      playInstrumentVoice(ctx, instrument, pitchToFrequency(event.pitch), barStart + offset, duration, destination)
     } else if (event.type === 'chord') {
       for (const freq of chordToFrequencies(event.name, event.octave)) {
-        playFrequency(ctx, freq, instrument, barStart + offset, duration, destination)
+        playInstrumentVoice(ctx, instrument, freq, barStart + offset, duration, destination)
       }
     } else if (event.type === 'inline_chord') {
       for (const pitch of event.pitches) {
-        playFrequency(ctx, pitchToFrequency(pitch), instrument, barStart + offset, duration, destination)
+        playInstrumentVoice(ctx, instrument, pitchToFrequency(pitch), barStart + offset, duration, destination)
       }
     }
     // rest: advance offset without scheduling anything
 
     offset += duration
   }
-}
-
-function playFrequency(
-  ctx: OfflineAudioContext,
-  freq: number,
-  instrument: Instrument,
-  startTime: number,
-  duration: number,
-  destination: AudioNode
-) {
-  const osc = ctx.createOscillator()
-  const gain = ctx.createGain()
-
-  osc.type = instrument
-  osc.frequency.value = freq
-
-  // Simple amplitude envelope: fast attack, short release to avoid clicks
-  gain.gain.setValueAtTime(0, startTime)
-  gain.gain.linearRampToValueAtTime(0.3, startTime + 0.005)
-  gain.gain.setValueAtTime(0.3, startTime + duration - 0.01)
-  gain.gain.linearRampToValueAtTime(0, startTime + duration)
-
-  osc.connect(gain)
-  gain.connect(destination)
-
-  osc.start(startTime)
-  osc.stop(startTime + duration)
 }
 
 function calcTotalDuration(ir: SongIR, beatsPerBar: number): number {

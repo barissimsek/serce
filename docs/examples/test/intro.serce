@@ -1,0 +1,5 @@
+section intro @tempo 140
+  track guitar electric_guitar
+    effect reverb decay:0.5
+    |1| Amin/h Cmaj/h
+    |2| Emin/h Gmaj/h

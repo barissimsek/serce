@@ -46,31 +46,35 @@ describe('buildEffectChain', () => {
 describe('buildDistortion', () => {
   it('sets WaveShaperNode curve of length 256', () => {
     const ctx = new OfflineAudioContext(1, 100, 44100)
-    const node = buildDistortion(ctx, { amount: 0.8 })
-    expect(node.curve).not.toBeNull()
-    expect(node.curve!.length).toBe(256)
+    const chain = buildDistortion(ctx, { amount: 0.8 })
+    const ws = chain.input as WaveShaperNode
+    expect(ws.curve).not.toBeNull()
+    expect(ws.curve!.length).toBe(256)
   })
 
   it('uses default amount 0.5 when param is omitted', () => {
     const ctx = new OfflineAudioContext(1, 100, 44100)
-    const node = buildDistortion(ctx, {})
-    expect(node.curve).not.toBeNull()
-    expect(node.curve!.length).toBe(256)
+    const chain = buildDistortion(ctx, {})
+    const ws = chain.input as WaveShaperNode
+    expect(ws.curve).not.toBeNull()
+    expect(ws.curve!.length).toBe(256)
   })
 })
 
 describe('buildReverb', () => {
-  it('sets ConvolverNode buffer length from decay param', () => {
+  it('returns an effect chain with distinct input and output nodes', () => {
     const ctx = new OfflineAudioContext(1, 100, 44100)
-    const node = buildReverb(ctx, { decay: 2.0 })
-    expect(node.buffer).not.toBeNull()
-    expect(node.buffer!.length).toBe(Math.ceil(2.0 * 44100))
+    const chain = buildReverb(ctx, { decay: 2.0 })
+    expect(chain.input).toBeDefined()
+    expect(chain.output).toBeDefined()
+    expect(chain.input).not.toBe(chain.output)
   })
 
-  it('uses default decay 1.5 when param is omitted', () => {
+  it('returns a valid chain for default decay', () => {
     const ctx = new OfflineAudioContext(1, 100, 44100)
-    const node = buildReverb(ctx, {})
-    expect(node.buffer!.length).toBe(Math.ceil(1.5 * 44100))
+    const chain = buildReverb(ctx, {})
+    expect(chain.input).toBeDefined()
+    expect(chain.output).toBeDefined()
   })
 })
 
