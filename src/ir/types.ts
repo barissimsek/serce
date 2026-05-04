@@ -12,6 +12,8 @@ export interface SongMeta {
   author: string
   tempo: number    // global BPM
   time: string     // e.g. '4/4'
+  published?: string
+  copyright?: string
 }
 
 export interface SectionIR {

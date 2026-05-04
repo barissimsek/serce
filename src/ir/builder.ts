@@ -6,10 +6,12 @@ import {
 export function buildIR(ast: SongAST): SongIR {
   const get = (key: string) => ast.directives.find(d => d.key === key)?.value ?? ''
   const meta: SongMeta = {
-    song:   get('song'),
-    author: get('author'),
-    tempo:  parseInt(get('tempo') || '120', 10),
-    time:   get('time') || '4/4',
+    song:      get('song'),
+    author:    get('author'),
+    tempo:     parseInt(get('tempo') || '120', 10),
+    time:      get('time') || '4/4',
+    ...(get('published')  && { published:  get('published') }),
+    ...(get('copyright')  && { copyright:  get('copyright') }),
   }
 
   const sectionsValue = get('sections')

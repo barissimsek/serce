@@ -30,6 +30,14 @@ export function validate(ast: SongAST, filePaths: string[]): ValidationError[] {
     }
   }
 
+  // Optional directives — at most once
+  for (const key of ['time', 'published', 'copyright'] as const) {
+    const found = ast.directives.filter(d => d.key === key)
+    if (found.length > 1) {
+      err(found[1].filePath, found[1].line, `@${key} declared 2 times — must appear exactly once`)
+    }
+  }
+
   // Global directives must only appear in meta.serce
   for (const directive of ast.directives) {
     if (directive.filePath !== 'meta.serce') {
