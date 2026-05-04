@@ -42,7 +42,22 @@ export function buildDistortion(ctx: OfflineAudioContext, params: Record<string,
   compensation.gain.value = 1 / drive
   ws.connect(compensation)
 
-  return { input: ws, output: compensation }
+  const mix = params.mix ?? 1.0
+  const input = ctx.createGain()
+  const dryGain = ctx.createGain()
+  const wetGain = ctx.createGain()
+  const output = ctx.createGain()
+
+  dryGain.gain.value = 1 - mix
+  wetGain.gain.value = mix
+
+  input.connect(dryGain)
+  dryGain.connect(output)
+  input.connect(ws)
+  compensation.connect(wetGain)
+  wetGain.connect(output)
+
+  return { input, output }
 }
 
 export function buildReverb(ctx: OfflineAudioContext, params: Record<string, number>): EffectChain {
@@ -96,10 +111,11 @@ export function buildDelay(ctx: OfflineAudioContext, params: Record<string, numb
 
   delayNode.delayTime.value = time
   feedbackGain.gain.value = feedback
+  const mix = params.mix ?? 0.5
   dryGain.gain.value = 1.0
 
   const wetGain = ctx.createGain()
-  wetGain.gain.value = 0.5
+  wetGain.gain.value = mix
 
   // Dry path: input → dryGain → output
   input.connect(dryGain)

@@ -188,14 +188,16 @@ track guitar sawtooth
 
 **Built-in effects:**
 
-| Effect     | Parameters                          | Web Audio node  |
-|------------|-------------------------------------|-----------------|
-| distortion | `amount` 0.0–1.0 (default 0.5)      | WaveShaperNode  |
-| reverb     | `decay` 0.0–10.0s (default 1.5)     | ConvolverNode   |
-| delay      | `time` 0.0–2.0s · `feedback` 0.0–1.0| DelayNode      |
-| chorus     | `rate` 0.1–10.0Hz · `depth` 0.0–1.0 | OscillatorNode + DelayNode |
+| Effect     | Parameters                                          |
+|------------|-----------------------------------------------------|
+| distortion | `amount` 0.0–1.0 (default 0.5)                     |
+| reverb     | `decay` 0.0–10.0s (default 1.5)                    |
+| delay      | `time` 0.0–2.0s · `feedback` 0.0–1.0               |
+| chorus     | `rate` 0.1–10.0Hz · `depth` 0.0–1.0                |
 
-All parameters are optional and fall back to defaults. Effects are parsed and stored in the IR but are not yet applied by the v1 renderer — audio output is dry.
+All effects also accept a `mix` param (0.0–1.0) that controls the dry/wet balance — how much of the effected signal is blended into the output. `mix:0` means the effect is inaudible, `mix:1` means fully wet. Each effect has its own default: reverb and delay default to `0.3`/`0.5`, distortion defaults to `1.0` (fully on).
+
+All parameters are optional and fall back to defaults.
 
 ## 2. Compiler Architecture
 

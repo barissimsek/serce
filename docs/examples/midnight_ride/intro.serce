@@ -1,6 +1,6 @@
 section intro @tempo 140
   track guitar electric_guitar
-    effect distortion amount:0.5
+    effect distortion amount:15.5
     effect delay time:0.3 feedback:0.3
     effect reverb decay:0.5
     |1| Emin/q Emin/q Emin/q Emin/q
