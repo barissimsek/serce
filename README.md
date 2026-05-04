@@ -324,19 +324,23 @@ Params can appear in any order and are all optional.
 ## 4. CLI Interface
 
 ```
-serce compile <dir>          → <song_name>.wav
-serce compile <dir> --ir     → <song_name>.ir.json  (skip audio rendering)
-serce run <dir>              → compile and play immediately (no file written)
-serce check <dir>            → validate only, no output
+serce compile <dir>                → <song_name>.wav
+serce compile <dir> --ir           → <song_name>.ir.json  (skip audio rendering)
+serce compile <dir> --follow       → print section names as they are rendered
+serce run <dir>                    → compile and play immediately (no file written)
+serce run <dir> --follow           → print section names in sync with playback
+serce check <dir>                  → validate only, no output
 ```
 
-`serce run` renders the song to a temporary WAV file, plays it via the system audio player (`afplay` on macOS, `aplay` on Linux, PowerShell on Windows), then deletes the temp file. Ctrl+C stops playback and also cleans up the temp file.
+`--follow` prints each section name to stdout as it starts, useful for live display or debugging song structure.
+
+`serce run` renders the song to a temporary WAV file, plays it via the system audio player (`afplay` on macOS, `aplay` on Linux, PowerShell on Windows), then deletes the temp file. Ctrl+C stops playback and cleans up the temp file.
 
 **Running from source:**
 ```bash
 npm run build
 node dist/cli/index.js compile /path/to/song
-node dist/cli/index.js run /path/to/song
+node dist/cli/index.js run /path/to/song --follow
 ```
 
 ## 5. Error Format
@@ -355,8 +359,6 @@ Format: `error  <file>:<line>  <message>`. All errors are reported before exitin
 
 ## 6. Out of Scope (v1)
 
-- Effect rendering (effects are parsed and stored in IR, but not applied to audio)
-- Sampled/realistic instruments
 - MIDI output
 - Panning / stereo positioning
 - Tempo automation (gradual BPM changes within a bar)
