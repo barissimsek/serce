@@ -298,12 +298,20 @@ serce/
 | electric_guitar  | Plucked string with natural decay | Karplus-Strong                   |
 | piano            | Grand piano with natural decay    | Additive synthesis (7 partials)  |
 
-All instruments support the `transpose` param on the track line — positive values shift pitch up, negative shift down (in semitones):
+All instruments support these params on the track line:
+
+| Param       | Range    | Default | Description                                      |
+|-------------|----------|---------|--------------------------------------------------|
+| `transpose` | any int  | `0`     | Shift pitch in semitones (positive = up, negative = down) |
+| `volume`    | 0.0–1.0  | `1`     | Track gain (0 = silent, 1 = full)                |
 
 ```
-track lead sine transpose:7
-track guitar electric_guitar transpose:-2
+track lead sine transpose:7 volume:0.8
+track guitar electric_guitar transpose:-2 volume:0.6
+track keys piano volume:0.4
 ```
+
+Params can appear in any order and are all optional.
 
 ## 4. CLI Interface
 

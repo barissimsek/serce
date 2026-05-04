@@ -40,6 +40,7 @@ function renderSection(ctx: OfflineAudioContext, section: SectionIR, startTime: 
 
   for (const track of section.tracks) {
     const destination = buildEffectChain(ctx, track.effects)
+    destination.gain.setValueAtTime(track.instrumentParams.volume ?? 1, 0)
     let barStart = startTime
     for (const bar of track.bars) {
       renderBar(ctx, bar.events, track.instrument, track.instrumentParams, barStart, barDuration, beatsPerBar, destination)
