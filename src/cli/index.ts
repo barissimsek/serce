@@ -59,6 +59,8 @@ export async function run(dir: string, follow = false): Promise<ValidationError[
 
   const cleanup = () => { try { unlinkSync(tmpPath) } catch {} }
 
+  await countIn(ir.meta.tempo, parseInt(ir.meta.time.split('/')[0], 10))
+
   const timers: ReturnType<typeof setTimeout>[] = []
   if (follow) {
     for (const { name, startSeconds } of sectionStartTimes(ir)) {
@@ -115,6 +117,16 @@ function loadSong(dir: string) {
   })
 
   return { ast: mergeFiles(fileASTs), filePaths }
+}
+
+async function countIn(tempo: number, beatsPerBar: number): Promise<void> {
+  const beatMs = (60 / tempo) * 1000
+  const sleep = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms))
+  for (let beat = 1; beat <= beatsPerBar; beat++) {
+    process.stdout.write(beat === 1 ? `${beat}` : `  ${beat}`)
+    await sleep(beatMs)
+  }
+  process.stdout.write('\n')
 }
 
 function playWav(path: string): Promise<void> {
