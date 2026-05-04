@@ -4,6 +4,58 @@
 
 Serce is a text-based music composition language with a compiler. Musicians write `.serce` files describing tracks, bars, notes, and effects; the compiler produces a `.wav` audio file. The language is designed for musicians, not programmers — syntax is minimal and visually familiar.
 
+## Quick Start
+
+**Requirements:** Node.js 18+, `make`
+
+```bash
+git clone https://github.com/barissimsek/serce.git
+cd serce
+make install
+```
+
+This builds the TypeScript source and installs the `serce` binary globally via npm. If `serce` is not found after install, add npm's global bin to your PATH:
+
+```bash
+echo 'export PATH="$(npm config get prefix)/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+**Try an example:**
+
+```bash
+serce run docs/examples/begging_for_you
+```
+
+**Write your first song:**
+
+```
+my_song/
+  meta.serce
+  song.serce
+```
+
+```
+# meta.serce
+@song     my_song
+@author   Your Name
+@tempo    120
+@sections default
+```
+
+```
+# song.serce
+track bass sine
+  |1| C2/q D2/q E2/q G2/q
+  |2| G2/h -/q C3/q
+```
+
+```bash
+serce run my_song
+```
+
+---
+
 ## 1. Language Syntax
 
 ### File extension
