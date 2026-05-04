@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readFileSync, readdirSync, writeFileSync, unlinkSync } from 'fs'
+import { readFileSync, readdirSync, writeFileSync, unlinkSync, realpathSync } from 'fs'
 import { join } from 'path'
 import { tmpdir } from 'os'
 import { spawn } from 'child_process'
@@ -185,6 +185,10 @@ program
     if (errors.length) process.exit(1)
   })
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  program.parse()
+try {
+  if (realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
+    program.parse()
+  }
+} catch {
+  // argv[1] may not exist (e.g. in some test runners)
 }

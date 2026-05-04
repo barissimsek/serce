@@ -18,6 +18,14 @@ section intro
     |14| D3/e D4/e F5/e D3/e D4/e F5/s E5/s
     |15| A3/e A4/e C4/e A3/e A4/e C4/e
     |16| A3/e A4/e C4/e A3/e A4/e C4/s E5/s
+    |17| B4/e G4/e C4/e B4/e G4/e C4/e
+    |18| B4/e G4/e C4/e B4/e G4/e C4/s B4/s
+    |19| G3/e G4/e D4/e G3/e G4/e D4/e
+    |20| G3/e G4/e D4/e G3/e G4/e D4/s B4/s
+    |21| B4/e G4/e C4/e B4/e G4/e C4/e
+    |22| B4/e G4/e C4/e B4/e G4/e C4/s B4/s
+    |23| G3/e G4/e D4/e G3/e G4/e D4/e
+    |24| G3/e G4/e D4/e G3/e G4/e D4/s B4/s
   track keys piano transpose:2
     effect reverb decay:0.3
     |1| [E4 G4 B4]/h [E4 G4 B4]/q
@@ -36,3 +44,11 @@ section intro
     |14| [D4 F4 A4]/h [D4 F4 A4]/q
     |15| [A3 C4 E4]/h [A3 C4 E4]/q
     |16| [A3 C4 E4]/h [A3 C4 E4]/q
+    |17| [C4 E4 G4]/h [C4 E4 G4]/q
+    |18| [C4 E4 G4]/h [C4 E4 G4]/q
+    |19| [G3 B3 D4]/h [G3 B3 D4]/q
+    |20| [G3 B3 D4]/h [G3 B3 D4]/q
+    |21| [C4 E4 G4]/h [C4 E4 G4]/q
+    |22| [C4 E4 G4]/h [C4 E4 G4]/q
+    |23| [G3 B3 D4]/h [G3 B3 D4]/q
+    |24| [G3 B3 D4]/h [G3 B3 D4]/q
