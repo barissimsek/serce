@@ -41,6 +41,38 @@ describe('render', () => {
     expect(max).toBe(0)
   })
 
+  it('transpose shifts pitch: A4 with transpose:12 sounds different from transpose:0', async () => {
+    const render0 = await render(irFrom(
+      ['@song x\n@author y\n@tempo 60\n@sections default\n', 'meta.serce'],
+      ['track t sine\n  |1| A4/w\n', 'track.serce']
+    ))
+    const render12 = await render(irFrom(
+      ['@song x\n@author y\n@tempo 60\n@sections default\n', 'meta.serce'],
+      ['track t sine transpose:12\n  |1| A4/w\n', 'track.serce']
+    ))
+    // A sine wave at 880Hz (transpose:12) completes twice as many cycles as 440Hz —
+    // the mid-point sample will have opposite sign between the two renders
+    const mid = Math.floor(render0.length / 2)
+    const slice0  = Array.from(render0.getChannelData(0).subarray(mid, mid + 100))
+    const slice12 = Array.from(render12.getChannelData(0).subarray(mid, mid + 100))
+    expect(slice0).not.toEqual(slice12)
+  })
+
+  it('transpose:-12 shifts pitch down one octave', async () => {
+    const renderBase = await render(irFrom(
+      ['@song x\n@author y\n@tempo 60\n@sections default\n', 'meta.serce'],
+      ['track t sine\n  |1| A5/w\n', 'track.serce']
+    ))
+    const renderDown = await render(irFrom(
+      ['@song x\n@author y\n@tempo 60\n@sections default\n', 'meta.serce'],
+      ['track t sine transpose:-12\n  |1| A5/w\n', 'track.serce']
+    ))
+    const mid = Math.floor(renderBase.length / 2)
+    const sliceBase = Array.from(renderBase.getChannelData(0).subarray(mid, mid + 100))
+    const sliceDown = Array.from(renderDown.getChannelData(0).subarray(mid, mid + 100))
+    expect(sliceBase).not.toEqual(sliceDown)
+  })
+
   it('duration matches tempo: 1 bar of 4/4 at 120bpm = 2 seconds', async () => {
     const ir = irFrom(
       ['@song x\n@author y\n@tempo 120\n@sections default\n', 'meta.serce'],

@@ -1,0 +1,33 @@
+section verse
+  track guitar electric_guitar
+    effect distortion amount:0.5
+    |1| Emin/q -/q Emin/q -/q
+    |2| Cmaj/q -/q Cmaj/q -/q
+    |3| Gmaj/q -/q Gmaj/q -/q
+    |4| Dmaj/h -/h
+    |5| Emin/q -/q Emin/q -/q
+    |6| Cmaj/q -/q Cmaj/q -/q
+    |7| Gmaj/q -/q Gmaj/q -/q
+    |8| Dmaj/h Emin/h
+
+  track bass sine
+    |1| E2/q E2/e E2/e E2/q E2/q
+    |2| C2/q C2/e C2/e C2/q C2/q
+    |3| G2/q G2/e G2/e G2/q G2/q
+    |4| D2/h E2/h
+    |5| E2/q E2/e E2/e E2/q E2/q
+    |6| C2/q C2/e C2/e C2/q C2/q
+    |7| G2/q G2/e G2/e G2/q G2/q
+    |8| D2/h E2/h
+
+  track lead electric_guitar
+    effect distortion amount:0.3
+    effect reverb decay:1.0
+    |1| B4/q B4/q A4/h
+    |2| G4/q G4/q E4/h
+    |3| G4/q A4/q B4/h
+    |4| A4/q G4/q E4/h
+    |5| B4/q B4/q A4/h
+    |6| G4/q G4/q E4/h
+    |7| D5/q C5/q B4/h
+    |8| A4/h E4/h

@@ -1,0 +1,33 @@
+section refrain @tempo 148
+  track guitar electric_guitar
+    effect distortion amount:0.9
+    |1| Emin/q Emin/q Emin/q Emin/q
+    |2| Cmaj/q Cmaj/q Cmaj/q Cmaj/q
+    |3| Gmaj/q Gmaj/q Gmaj/q Gmaj/q
+    |4| Dmaj/h Emin/h
+    |5| Emin/q Emin/q Emin/q Emin/q
+    |6| Cmaj/q Cmaj/q Cmaj/q Cmaj/q
+    |7| Gmaj/q Gmaj/q Gmaj/q Gmaj/q
+    |8| Dmaj/h Emin/h
+
+  track bass sine
+    |1| E2/e E2/e E2/e E2/e E2/e E2/e E2/e E2/e
+    |2| C2/e C2/e C2/e C2/e C2/e C2/e C2/e C2/e
+    |3| G2/e G2/e G2/e G2/e G2/e G2/e G2/e G2/e
+    |4| D2/q D2/q E2/h
+    |5| E2/e E2/e E2/e E2/e E2/e E2/e E2/e E2/e
+    |6| C2/e C2/e C2/e C2/e C2/e C2/e C2/e C2/e
+    |7| G2/e G2/e G2/e G2/e G2/e G2/e G2/e G2/e
+    |8| D2/q D2/q E2/h
+
+  track lead electric_guitar
+    effect distortion amount:0.6
+    effect reverb decay:2.0
+    |1| E5/h D5/h
+    |2| C5/h B4/h
+    |3| G4/q A4/q B4/q C5/q
+    |4| D5/h E5/h
+    |5| E5/h D5/h
+    |6| C5/h B4/h
+    |7| G5/q F#5/q E5/q D5/q
+    |8| E5/w

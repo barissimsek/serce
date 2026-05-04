@@ -5,20 +5,24 @@ import { playElectricGuitar } from './electric_guitar.js'
 export function playInstrumentVoice(
   ctx: OfflineAudioContext,
   instrument: Instrument,
+  params: Record<string, number>,
   freq: number,
   startTime: number,
   duration: number,
   destination: AudioNode
 ): void {
+  const transpose = params.transpose ?? 0
+  const transposedFreq = transpose === 0 ? freq : freq * Math.pow(2, transpose / 12)
+
   switch (instrument) {
     case 'sine':
     case 'square':
     case 'sawtooth':
     case 'triangle':
-      playOscillator(ctx, instrument, freq, startTime, duration, destination)
+      playOscillator(ctx, instrument, transposedFreq, startTime, duration, destination)
       break
     case 'electric_guitar':
-      playElectricGuitar(ctx, freq, startTime, duration, destination)
+      playElectricGuitar(ctx, transposedFreq, startTime, duration, destination)
       break
   }
 }

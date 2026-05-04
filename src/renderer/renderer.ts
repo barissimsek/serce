@@ -42,7 +42,7 @@ function renderSection(ctx: OfflineAudioContext, section: SectionIR, startTime: 
     const destination = buildEffectChain(ctx, track.effects)
     let barStart = startTime
     for (const bar of track.bars) {
-      renderBar(ctx, bar.events, track.instrument, barStart, barDuration, beatsPerBar, destination)
+      renderBar(ctx, bar.events, track.instrument, track.instrumentParams, barStart, barDuration, beatsPerBar, destination)
       barStart += barDuration
     }
   }
@@ -52,6 +52,7 @@ function renderBar(
   ctx: OfflineAudioContext,
   events: EventIR[],
   instrument: Instrument,
+  instrumentParams: Record<string, number>,
   barStart: number,
   barDuration: number,
   beatsPerBar: number,
@@ -65,14 +66,14 @@ function renderBar(
     const duration = beats * beatDuration
 
     if (event.type === 'note') {
-      playInstrumentVoice(ctx, instrument, pitchToFrequency(event.pitch), barStart + offset, duration, destination)
+      playInstrumentVoice(ctx, instrument, instrumentParams, pitchToFrequency(event.pitch), barStart + offset, duration, destination)
     } else if (event.type === 'chord') {
       for (const freq of chordToFrequencies(event.name, event.octave)) {
-        playInstrumentVoice(ctx, instrument, freq, barStart + offset, duration, destination)
+        playInstrumentVoice(ctx, instrument, instrumentParams, freq, barStart + offset, duration, destination)
       }
     } else if (event.type === 'inline_chord') {
       for (const pitch of event.pitches) {
-        playInstrumentVoice(ctx, instrument, pitchToFrequency(pitch), barStart + offset, duration, destination)
+        playInstrumentVoice(ctx, instrument, instrumentParams, pitchToFrequency(pitch), barStart + offset, duration, destination)
       }
     }
     // rest: advance offset without scheduling anything

@@ -23,6 +23,7 @@ export interface SectionIR {
 export interface TrackIR {
   name: string
   instrument: Instrument
+  instrumentParams: Record<string, number>
   effects: EffectIR[]
   bars: BarIR[]
 }

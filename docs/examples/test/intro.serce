@@ -1,5 +1,14 @@
-section intro @tempo 140
-  track guitar electric_guitar
+section intro
+  track guitar electric_guitar transpose:2
+    effect delay time:0.1 feedback:0.3
     effect reverb decay:0.5
-    |1| Amin/h Cmaj/h
-    |2| Emin/h Gmaj/h
+    |1| E3/q G4/q B4/q
+    |2| E3/q G4/q B4/q
+    |3| E3/q G4/q B4/e C4/e
+    |4| -/q A3/q A4/q 
+    |5| C4/q A3/q A4/q 
+    |6| C4/q A3/q A4/q 
+    |7| C4/e B4/e -/h
+    |8| D4/q D4/q F5/q
+    |9| D4/q D4/q F5/q
+    |10| D4/q D4/q F4/e E5/e

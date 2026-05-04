@@ -4,7 +4,7 @@ const NOTE_RE   = /^[A-G][#b]?\d\/[whqes]$/
 const CHORD_RE  = /^[A-G][#b]?(maj7|min7|maj|min|dim|aug|sus2|sus4|7)\d?\/[whqes]$/
 const REST_RE   = /^-\/([whqes])$/
 const PITCH_RE  = /^[A-G][#b]?\d$/   // pitch only, no duration — used inside [...]
-const PARAM_RE  = /^\w+:\d+(\.\d+)?$/
+const PARAM_RE  = /^\w+:-?\d+(\.\d+)?$/
 const BAR_RE    = /^\|(\d+)\|$/
 
 function classifyWord(word: string, insideBracket: boolean): TokenKind {

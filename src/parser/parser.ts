@@ -95,6 +95,11 @@ export function parseFile(source: string, filePath: string): FileAST {
     const kw = consume()   // KEYWORD 'track'
     const name = expectKind('IDENTIFIER').value
     const instrument = expectKind('INSTRUMENT').value as TrackNode['instrument']
+    const instrumentParams: Record<string, number> = {}
+    while (peek().kind === 'PARAM') {
+      const { key, val } = parseParam(consume())
+      instrumentParams[key] = val
+    }
     const effects: EffectNode[] = []
     const bars: BarNode[] = []
 
@@ -105,7 +110,7 @@ export function parseFile(source: string, filePath: string): FileAST {
       bars.push(parseBar())
     }
 
-    return { name, instrument, effects, bars, line: kw.line, filePath }
+    return { name, instrument, instrumentParams, effects, bars, line: kw.line, filePath }
   }
 
   function parseSection(): SectionNode {

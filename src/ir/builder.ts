@@ -38,6 +38,7 @@ function buildTrack(track: TrackNode): TrackIR {
   return {
     name: track.name,
     instrument: track.instrument,
+    instrumentParams: { ...track.instrumentParams },
     effects: track.effects.map(e => ({ type: e.type, params: { ...e.params } })),
     bars: track.bars.map(buildBar),
   }
