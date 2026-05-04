@@ -108,4 +108,20 @@ describe('tokenize', () => {
       { kind: 'CHORD', value: 'G7/e' },
     ])
   })
+
+  it('ignores full-line comments', () => {
+    expect(noEOF(tokenize('// this is a comment\ntrack bass sine\n', 'x.serce'))).toMatchObject([
+      { kind: 'KEYWORD', value: 'track' },
+      { kind: 'IDENTIFIER', value: 'bass' },
+      { kind: 'INSTRUMENT', value: 'sine' },
+    ])
+  })
+
+  it('ignores inline comments', () => {
+    expect(noEOF(tokenize('track bass sine // lead\n', 'x.serce'))).toMatchObject([
+      { kind: 'KEYWORD', value: 'track' },
+      { kind: 'IDENTIFIER', value: 'bass' },
+      { kind: 'INSTRUMENT', value: 'sine' },
+    ])
+  })
 })

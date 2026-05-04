@@ -27,7 +27,9 @@ export function tokenize(source: string, filePath: string): Token[] {
 
   for (let i = 0; i < lines.length; i++) {
     const lineNum = i + 1
-    const line = lines[i].trim()
+    const raw = lines[i]
+    const commentIdx = raw.indexOf('//')
+    const line = (commentIdx === -1 ? raw : raw.slice(0, commentIdx)).trim()
     if (!line) continue
 
     const tok = (kind: TokenKind, value: string): Token =>

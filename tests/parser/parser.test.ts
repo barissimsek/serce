@@ -27,13 +27,13 @@ describe('parseFile', () => {
   })
 
   it('parses a named chord in a bar', () => {
-    const ast = parseFile('track piano sine\n  |1| Cmaj/w\n', 'piano.serce')
+    const ast = parseFile('track keys sine\n  |1| Cmaj/w\n', 'keys.serce')
     const event = ast.topLevelTracks[0].bars[0].events[0]
     expect(event).toMatchObject({ type: 'chord', name: 'Cmaj', octave: 4, duration: 'w' })
   })
 
   it('parses a chord with explicit octave', () => {
-    const ast = parseFile('track piano sine\n  |1| Amin3/h\n', 'piano.serce')
+    const ast = parseFile('track keys sine\n  |1| Amin3/h\n', 'keys.serce')
     const event = ast.topLevelTracks[0].bars[0].events[0]
     expect(event).toMatchObject({ type: 'chord', name: 'Amin', octave: 3, duration: 'h' })
   })
@@ -44,7 +44,7 @@ describe('parseFile', () => {
   })
 
   it('parses an inline chord', () => {
-    const ast = parseFile('track piano sine\n  |1| [C4 E4 G4]/h\n', 'piano.serce')
+    const ast = parseFile('track keys sine\n  |1| [C4 E4 G4]/h\n', 'keys.serce')
     const event = ast.topLevelTracks[0].bars[0].events[0]
     expect(event).toMatchObject({ type: 'inline_chord', pitches: ['C4', 'E4', 'G4'], duration: 'h' })
   })

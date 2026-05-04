@@ -1,5 +1,5 @@
 export type Duration = 'w' | 'h' | 'q' | 'e' | 's'
-export type Instrument = 'sine' | 'square' | 'sawtooth' | 'triangle' | 'electric_guitar'
+export type Instrument = 'sine' | 'square' | 'sawtooth' | 'triangle' | 'electric_guitar' | 'piano'
 export type EffectType = 'distortion' | 'reverb' | 'delay' | 'chorus'
 
 export interface SongIR {

@@ -237,13 +237,14 @@ serce/
 
 ### Built-in instruments
 
-| Name             | Character                        | Synthesis          |
-|------------------|----------------------------------|--------------------|
-| sine             | Smooth, pure                     | OscillatorNode     |
-| square           | Buzzy, retro                     | OscillatorNode     |
-| sawtooth         | Bright, string-like              | OscillatorNode     |
-| triangle         | Soft, flute-like                 | OscillatorNode     |
-| electric_guitar  | Plucked string with natural decay| Karplus-Strong     |
+| Name             | Character                         | Synthesis                        |
+|------------------|-----------------------------------|----------------------------------|
+| sine             | Smooth, pure                      | OscillatorNode                   |
+| square           | Buzzy, retro                      | OscillatorNode                   |
+| sawtooth         | Bright, string-like               | OscillatorNode                   |
+| triangle         | Soft, flute-like                  | OscillatorNode                   |
+| electric_guitar  | Plucked string with natural decay | Karplus-Strong                   |
+| piano            | Grand piano with natural decay    | Additive synthesis (7 partials)  |
 
 All instruments support the `transpose` param on the track line — positive values shift pitch up, negative shift down (in semitones):
 
@@ -251,8 +252,6 @@ All instruments support the `transpose` param on the track line — positive val
 track lead sine transpose:7
 track guitar electric_guitar transpose:-2
 ```
-
-Sampled instruments (piano, drums) are a future addition.
 
 ## 4. CLI Interface
 

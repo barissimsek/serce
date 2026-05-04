@@ -1,6 +1,7 @@
 import { Instrument } from '../../ir/types.js'
 import { playOscillator } from './oscillator.js'
 import { playElectricGuitar } from './electric_guitar.js'
+import { playPiano } from './piano.js'
 
 export function playInstrumentVoice(
   ctx: OfflineAudioContext,
@@ -23,6 +24,9 @@ export function playInstrumentVoice(
       break
     case 'electric_guitar':
       playElectricGuitar(ctx, transposedFreq, startTime, duration, destination)
+      break
+    case 'piano':
+      playPiano(ctx, transposedFreq, startTime, duration, destination)
       break
   }
 }

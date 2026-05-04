@@ -38,7 +38,7 @@ describe('check', () => {
   it('returns no errors for a valid project', async () => {
     writeProject({
       'meta.serce': '@song x\n@author y\n@tempo 90\n@sections default\n',
-      'track.serce': 'track piano square\n  |1| E4/w\n',
+      'track.serce': 'track keys square\n  |1| E4/w\n',
     })
     const errors = await check(TMP)
     expect(errors).toHaveLength(0)
