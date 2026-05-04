@@ -24,7 +24,13 @@ source ~/.zshrc
 **Try an example:**
 
 ```bash
-serce run docs/examples/begging_for_you
+serce run docs/examples/begging_for_you --follow
+```
+
+If `serce` is still not found after the PATH fix, run directly from the repo:
+
+```bash
+node dist/cli/index.js run docs/examples/begging_for_you --follow
 ```
 
 **Write your first song:**

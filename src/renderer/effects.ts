@@ -64,8 +64,9 @@ export function buildReverb(ctx: OfflineAudioContext, params: Record<string, num
   const wetGain = ctx.createGain()
   const output = ctx.createGain()
 
-  dryGain.gain.value = 0.7
-  wetGain.gain.value = 0.3
+  const mix = params.mix ?? 0.3
+  dryGain.gain.value = 1 - mix
+  wetGain.gain.value = mix
 
   input.connect(dryGain)
   dryGain.connect(output)

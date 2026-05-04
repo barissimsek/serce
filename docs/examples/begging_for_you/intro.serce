@@ -1,7 +1,7 @@
 section intro
   track guitar electric_guitar transpose:2
     effect delay time:0.1 feedback:0.5
-    effect reverb decay:0.5
+    effect reverb decay:0.5 mix:1
     |1| E3/e G4/e B4/e E3/e G4/e B4/e
     |2| E3/e G4/e B4/e E3/e G4/e B4/s C4/s 
     |3| A3/e A4/e C4/e A3/e A4/e C4/e
