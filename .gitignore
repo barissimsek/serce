@@ -2,6 +2,7 @@ node_modules/
 dist/
 *.wav
 *.midi
+*.mid
 *.ir.json
 
 # Logs
