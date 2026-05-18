@@ -1,4 +1,4 @@
-track melody sine
+track melody classical_guitar volume:1
   |1|  D4/q D4/q E4/q F#4/q
   |2|  F#4/q E4/q D4/q C#4/q
   |3|  B3/q B3/q C#4/q D4/q
@@ -16,7 +16,7 @@ track melody sine
   |15| B3/h A3/h
   |16| D4/w
 
-track harmony square
+track harmony square volume:0.5
   effect reverb decay:1.5
   |1|  F#4/q F#4/q G4/q A4/q
   |2|  A4/q G4/q F#4/q E4/q
@@ -35,7 +35,7 @@ track harmony square
   |15| D4/h C#4/h
   |16| D4/w
 
-track bass triangle
+track bass triangle volume:0.5
   |1|  Dmaj/w
   |2|  Amaj4/h Dmaj/h
   |3|  Gmaj/h Dmaj/h
