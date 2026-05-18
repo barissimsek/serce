@@ -1,0 +1,34 @@
+// Refrain — 8 bars, ney carries the emotional peak
+// Descends from high D, the longing resolved to the root
+section refrain
+  track ney triangle volume:0.6
+    effect reverb decay:4.5 mix:0.45
+    effect delay time:0.35 feedback:0.3 mix:0.25
+    |1| D5/q C5/q Bb4/q A4/q
+    |2| G4/q A4/q Bb4/q A4/q
+    |3| G4/q F#4/q G4/q A4/q
+    |4| D4/h -/h
+    |5| F#4/e G4/e A4/q Bb4/q A4/q
+    |6| G4/q A4/h G4/q
+    |7| F#4/q Eb4/q D4/q Eb4/q
+    |8| D4/w
+  track saz classical_guitar volume:0.55
+    effect reverb decay:3.5 mix:0.3
+    |1| A4/q G4/q F#4/q Eb4/q
+    |2| D4/q Eb4/q F#4/q G4/q
+    |3| A4/q G4/q F#4/q G4/q
+    |4| D4/h -/h
+    |5| D4/q F#4/q G4/q A4/q
+    |6| Bb4/q A4/h G4/q
+    |7| F#4/q Eb4/q F#4/q D4/q
+    |8| D4/w
+  track drone sine volume:0.3
+    effect reverb decay:5.0 mix:0.4
+    |1| D2/w
+    |2| D2/w
+    |3| D2/w
+    |4| D2/w
+    |5| D2/w
+    |6| D2/w
+    |7| D2/w
+    |8| D2/w

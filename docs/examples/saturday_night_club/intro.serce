@@ -1,0 +1,24 @@
+// Intro — 8 bars, pads + filtered melody, no bass yet
+// Chord progression: Am - F - C - G (2 bars each)
+section intro
+  track pads sine volume:0.6
+    effect reverb decay:4.0 mix:0.45
+    |1| Amin/w
+    |2| Amin/w
+    |3| Fmaj/w
+    |4| Fmaj/w
+    |5| Cmaj/w
+    |6| Cmaj/w
+    |7| Gmaj/w
+    |8| Gmaj/w
+  track melody triangle volume:0.5
+    effect delay time:0.3 feedback:0.4 mix:0.3
+    effect reverb decay:2.0 mix:0.2
+    |1| E5/e D5/e C5/q A4/h
+    |2| A4/q -/q E5/q D5/q
+    |3| F5/e E5/e F5/q A4/h
+    |4| A4/q -/q C5/q A4/q
+    |5| G4/e A4/e G4/q E4/h
+    |6| E4/q -/q G4/q E4/q
+    |7| B4/e A4/e G4/q D4/h
+    |8| G4/q -/q B4/q G4/q

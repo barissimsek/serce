@@ -1,0 +1,171 @@
+// Drop — 16 bars, full arrangement
+// Bass + pads + synth lead + arpeggio
+// Chord progression: Am - F - C - G (loops twice)
+section drop
+  track pads sine volume:0.5
+    effect reverb decay:3.0 mix:0.35
+    |1|  Amin/w
+    |2|  Amin/w
+    |3|  Fmaj/w
+    |4|  Fmaj/w
+    |5|  Cmaj/w
+    |6|  Cmaj/w
+    |7|  Gmaj/w
+    |8|  Gmaj/w
+    |9|  Amin/w
+    |10| Amin/w
+    |11| Fmaj/w
+    |12| Fmaj/w
+    |13| Cmaj/w
+    |14| Cmaj/w
+    |15| Gmaj/w
+    |16| Gmaj/w
+  track bass sawtooth volume:0.8
+    effect distortion amount:0.3 mix:0.4
+    |1|  A2/q -/e A2/e A2/q -/e A2/e
+    |2|  A2/q -/e A2/e A2/q -/e A2/e
+    |3|  F2/q -/e F2/e F2/q -/e F2/e
+    |4|  F2/q -/e F2/e F2/q -/e F2/e
+    |5|  C2/q -/e C2/e C2/q -/e C2/e
+    |6|  C2/q -/e C2/e C2/q -/e C2/e
+    |7|  G2/q -/e G2/e G2/q -/e G2/e
+    |8|  G2/q -/e G2/e G2/q -/e G2/e
+    |9|  A2/q -/e A2/e A2/q -/e A2/e
+    |10| A2/q -/e A2/e A2/q -/e A2/e
+    |11| F2/q -/e F2/e F2/q -/e F2/e
+    |12| F2/q -/e F2/e F2/q -/e F2/e
+    |13| C2/q -/e C2/e C2/q -/e C2/e
+    |14| C2/q -/e C2/e C2/q -/e C2/e
+    |15| G2/q -/e G2/e G2/q -/e G2/e
+    |16| G2/q -/e G2/e G2/q -/e G2/e
+  track lead square volume:0.7
+    effect delay time:0.25 feedback:0.35 mix:0.3
+    |1|  E5/e D5/e C5/q A4/h
+    |2|  A4/q -/q E5/q D5/q
+    |3|  F5/e E5/e F5/q A4/h
+    |4|  A4/q -/q C5/q A4/q
+    |5|  G4/e A4/e G4/q E4/h
+    |6|  E4/q -/q G4/q E4/q
+    |7|  B4/e A4/e G4/q D4/h
+    |8|  G4/q -/q B4/q G4/q
+    |9|  E5/e D5/e C5/q A4/h
+    |10| A4/q -/q E5/q D5/q
+    |11| F5/e E5/e F5/q A4/h
+    |12| A4/q -/q C5/q A4/q
+    |13| G4/e A4/e G4/q E4/h
+    |14| E4/q -/q G4/q E4/q
+    |15| B4/e A4/e G4/q D4/h
+    |16| G4/q -/q B4/q G4/q
+  track arp sawtooth volume:0.4
+    effect reverb decay:1.5 mix:0.2
+    |1|  A4/e C5/e E5/e C5/e A4/e C5/e E5/e C5/e
+    |2|  A4/e C5/e E5/e C5/e A4/e C5/e E5/e C5/e
+    |3|  F4/e A4/e C5/e A4/e F4/e A4/e C5/e A4/e
+    |4|  F4/e A4/e C5/e A4/e F4/e A4/e C5/e A4/e
+    |5|  C4/e E4/e G4/e E4/e C4/e E4/e G4/e E4/e
+    |6|  C4/e E4/e G4/e E4/e C4/e E4/e G4/e E4/e
+    |7|  G4/e B4/e D5/e B4/e G4/e B4/e D5/e B4/e
+    |8|  G4/e B4/e D5/e B4/e G4/e B4/e D5/e B4/e
+    |9|  A4/e C5/e E5/e C5/e A4/e C5/e E5/e C5/e
+    |10| A4/e C5/e E5/e C5/e A4/e C5/e E5/e C5/e
+    |11| F4/e A4/e C5/e A4/e F4/e A4/e C5/e A4/e
+    |12| F4/e A4/e C5/e A4/e F4/e A4/e C5/e A4/e
+    |13| C4/e E4/e G4/e E4/e C4/e E4/e G4/e E4/e
+    |14| C4/e E4/e G4/e E4/e C4/e E4/e G4/e E4/e
+    |15| G4/e B4/e D5/e B4/e G4/e B4/e D5/e B4/e
+    |16| G4/e B4/e D5/e B4/e G4/e B4/e D5/e B4/e
+
+// Drop 2 — same energy, adds chord stabs on beat 3
+section drop2
+  track pads sine volume:0.5
+    effect reverb decay:3.0 mix:0.35
+    |1|  Amin/w
+    |2|  Amin/w
+    |3|  Fmaj/w
+    |4|  Fmaj/w
+    |5|  Cmaj/w
+    |6|  Cmaj/w
+    |7|  Gmaj/w
+    |8|  Gmaj/w
+    |9|  Amin/w
+    |10| Amin/w
+    |11| Fmaj/w
+    |12| Fmaj/w
+    |13| Cmaj/w
+    |14| Cmaj/w
+    |15| Gmaj/w
+    |16| Gmaj/w
+  track bass sawtooth volume:0.8
+    effect distortion amount:0.3 mix:0.4
+    |1|  A2/q -/e A2/e A2/q -/e A2/e
+    |2|  A2/q -/e A2/e A2/q -/e A2/e
+    |3|  F2/q -/e F2/e F2/q -/e F2/e
+    |4|  F2/q -/e F2/e F2/q -/e F2/e
+    |5|  C2/q -/e C2/e C2/q -/e C2/e
+    |6|  C2/q -/e C2/e C2/q -/e C2/e
+    |7|  G2/q -/e G2/e G2/q -/e G2/e
+    |8|  G2/q -/e G2/e G2/q -/e G2/e
+    |9|  A2/q -/e A2/e A2/q -/e A2/e
+    |10| A2/q -/e A2/e A2/q -/e A2/e
+    |11| F2/q -/e F2/e F2/q -/e F2/e
+    |12| F2/q -/e F2/e F2/q -/e F2/e
+    |13| C2/q -/e C2/e C2/q -/e C2/e
+    |14| C2/q -/e C2/e C2/q -/e C2/e
+    |15| G2/q -/e G2/e G2/q -/e G2/e
+    |16| G2/q -/e G2/e G2/q -/e G2/e
+  track lead square volume:0.7
+    effect delay time:0.25 feedback:0.35 mix:0.3
+    |1|  E5/e D5/e C5/q A4/h
+    |2|  A4/q -/q E5/q D5/q
+    |3|  F5/e E5/e F5/q A4/h
+    |4|  A4/q -/q C5/q A4/q
+    |5|  G4/e A4/e G4/q E4/h
+    |6|  E4/q -/q G4/q E4/q
+    |7|  B4/e A4/e G4/q D4/h
+    |8|  G4/q -/q B4/q G4/q
+    |9|  E5/e D5/e C5/q A4/h
+    |10| A4/q -/q E5/q D5/q
+    |11| F5/e E5/e F5/q A4/h
+    |12| A4/q -/q C5/q A4/q
+    |13| G4/e A4/e G4/q E4/h
+    |14| E4/q -/q G4/q E4/q
+    |15| B4/e A4/e G4/q D4/h
+    |16| G4/q -/q B4/q G4/q
+  track arp sawtooth volume:0.4
+    effect reverb decay:1.5 mix:0.2
+    |1|  A4/e C5/e E5/e C5/e A4/e C5/e E5/e C5/e
+    |2|  A4/e C5/e E5/e C5/e A4/e C5/e E5/e C5/e
+    |3|  F4/e A4/e C5/e A4/e F4/e A4/e C5/e A4/e
+    |4|  F4/e A4/e C5/e A4/e F4/e A4/e C5/e A4/e
+    |5|  C4/e E4/e G4/e E4/e C4/e E4/e G4/e E4/e
+    |6|  C4/e E4/e G4/e E4/e C4/e E4/e G4/e E4/e
+    |7|  G4/e B4/e D5/e B4/e G4/e B4/e D5/e B4/e
+    |8|  G4/e B4/e D5/e B4/e G4/e B4/e D5/e B4/e
+    |9|  A4/e C5/e E5/e C5/e A4/e C5/e E5/e C5/e
+    |10| A4/e C5/e E5/e C5/e A4/e C5/e E5/e C5/e
+    |11| F4/e A4/e C5/e A4/e F4/e A4/e C5/e A4/e
+    |12| F4/e A4/e C5/e A4/e F4/e A4/e C5/e A4/e
+    |13| C4/e E4/e G4/e E4/e C4/e E4/e G4/e E4/e
+    |14| C4/e E4/e G4/e E4/e C4/e E4/e G4/e E4/e
+    |15| G4/e B4/e D5/e B4/e G4/e B4/e D5/e B4/e
+    |16| G4/e B4/e D5/e B4/e G4/e B4/e D5/e B4/e
+  // Chord stabs on beat 3 — punch on every bar
+  track stab square volume:0.6
+    effect distortion amount:0.2 mix:0.5
+    effect reverb decay:0.8 mix:0.2
+    |1|  -/h [A4 C5 E5]/q -/q
+    |2|  -/h [A4 C5 E5]/q -/q
+    |3|  -/h [F4 A4 C5]/q -/q
+    |4|  -/h [F4 A4 C5]/q -/q
+    |5|  -/h [C4 E4 G4]/q -/q
+    |6|  -/h [C4 E4 G4]/q -/q
+    |7|  -/h [G4 B4 D5]/q -/q
+    |8|  -/h [G4 B4 D5]/q -/q
+    |9|  -/h [A4 C5 E5]/q -/q
+    |10| -/h [A4 C5 E5]/q -/q
+    |11| -/h [F4 A4 C5]/q -/q
+    |12| -/h [F4 A4 C5]/q -/q
+    |13| -/h [C4 E4 G4]/q -/q
+    |14| -/h [C4 E4 G4]/q -/q
+    |15| -/h [G4 B4 D5]/q -/q
+    |16| -/h [G4 B4 D5]/q -/q

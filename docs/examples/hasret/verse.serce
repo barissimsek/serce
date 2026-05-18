@@ -1,0 +1,24 @@
+// Verse — 8 bars, saz melody over tonic drone
+// D Hicaz makam: D Eb F# G A Bb C D
+// The augmented second Eb–F# gives the characteristic longing quality
+section verse
+  track saz classical_guitar volume:0.75
+    effect reverb decay:3.5 mix:0.3
+    |1| D4/q Eb4/q F#4/q G4/q
+    |2| A4/q G4/q F#4/q Eb4/q
+    |3| D4/q -/q A4/h
+    |4| G4/q F#4/q Eb4/q D4/q
+    |5| F#4/q G4/q A4/q Bb4/q
+    |6| A4/q G4/q F#4/q G4/q
+    |7| Eb4/q F#4/q G4/q A4/q
+    |8| D4/h -/h
+  track drone sine volume:0.3
+    effect reverb decay:5.0 mix:0.4
+    |1| D2/w
+    |2| D2/w
+    |3| D2/w
+    |4| D2/w
+    |5| D2/w
+    |6| D2/w
+    |7| D2/w
+    |8| D2/w
