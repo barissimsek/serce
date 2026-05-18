@@ -26,7 +26,7 @@ export interface SectionNode {
 
 export interface TrackNode {
   name: string
-  instrument: 'sine' | 'square' | 'sawtooth' | 'triangle' | 'electric_guitar' | 'piano'
+  instrument: 'sine' | 'square' | 'sawtooth' | 'triangle' | 'electric_guitar' | 'classical_guitar' | 'piano'
   instrumentParams: Record<string, number>
   effects: EffectNode[]
   bars: BarNode[]

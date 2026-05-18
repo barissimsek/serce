@@ -10,6 +10,7 @@ import { validate, ValidationError } from '../validator/validator.js'
 import { buildIR } from '../ir/builder.js'
 import { render, sectionStartTimes } from '../renderer/renderer.js'
 import { audioBufferToWav } from '../renderer/wav.js'
+import { buildMidi } from '../renderer/midi.js'
 
 export async function compile(dir: string, follow = false): Promise<ValidationError[]> {
   const { ast, filePaths } = loadSong(dir)
@@ -92,6 +93,20 @@ export async function check(dir: string): Promise<ValidationError[]> {
   return errors
 }
 
+export async function compileMidi(dir: string): Promise<ValidationError[]> {
+  const { ast, filePaths } = loadSong(dir)
+  const errors = validate(ast, filePaths)
+  if (errors.length) {
+    printErrors(errors)
+    return errors
+  }
+  const ir = buildIR(ast)
+  const outPath = join(dir, `${ir.meta.song}.mid`)
+  writeFileSync(outPath, buildMidi(ir))
+  console.log(`→ ${outPath}`)
+  return []
+}
+
 export async function compileIR(dir: string): Promise<ValidationError[]> {
   const { ast, filePaths } = loadSong(dir)
   const errors = validate(ast, filePaths)
@@ -161,10 +176,13 @@ program
 program
   .command('compile <dir>')
   .description('Compile .serce files in <dir> to a WAV file')
-  .option('--ir', 'Emit IR JSON instead of audio')
+  .option('--ir',   'Emit IR JSON instead of audio')
+  .option('--midi', 'Emit MIDI file instead of audio')
   .option('--follow', 'Print section names as they are rendered')
-  .action(async (dir: string, opts: { ir?: boolean; follow?: boolean }) => {
-    const errors = opts.ir ? await compileIR(dir) : await compile(dir, opts.follow)
+  .action(async (dir: string, opts: { ir?: boolean; midi?: boolean; follow?: boolean }) => {
+    const errors = opts.ir   ? await compileIR(dir)
+                 : opts.midi ? await compileMidi(dir)
+                 :             await compile(dir, opts.follow)
     if (errors.length) process.exit(1)
   })
 

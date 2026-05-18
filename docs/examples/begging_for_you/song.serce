@@ -1,8 +1,8 @@
 // that line is a comment and will be ignored
 section intro
-  track guitar electric_guitar transpose:2
-    effect delay time:0.5 feedback:0.5 mix:1
-    effect reverb decay:0.5 mix:1
+  track guitar classical_guitar transpose:2 volume:1
+    effect reverb decay:3.5 mix:0.35   // wide open space
+    effect delay time:0.45 feedback:0.6 mix:0.25  // forest echo
     |1| E3/e G4/e B4/e E3/e G4/e B4/e
     |2| E3/e G4/e B4/e E3/e G4/e B4/s C4/s 
     |3| A3/e A4/e C4/e A3/e A4/e C4/e
@@ -35,8 +35,8 @@ section intro
     |30| D3/e D4/e F5/e D3/e D4/e F5/s E5/s
     |31| A3/e A4/e C4/e A3/e A4/e C4/e
     |32| A3/e A4/e C4/e A3/e A4/e C4/s B4/s
-  track keys piano transpose:2 volume:0.5
-    effect reverb decay:0.3
+  track keys piano transpose:2 volume:0.2
+    effect reverb decay:2.5 mix:0.25
     |1| [E4 G4 B4]/h [E4 G4 B4]/q
     |2| [E4 G4 B4]/h [E4 G4 B4]/q
     |3| [A3 C4 E4]/h [A3 C4 E4]/q

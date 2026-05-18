@@ -25,7 +25,7 @@ export interface Token {
   filePath: string
 }
 
-export const INSTRUMENTS = new Set(['sine', 'square', 'sawtooth', 'triangle', 'electric_guitar', 'piano'])
+export const INSTRUMENTS = new Set(['sine', 'square', 'sawtooth', 'triangle', 'electric_guitar', 'classical_guitar', 'piano'])
 export const EFFECT_TYPES = new Set(['distortion', 'reverb', 'delay', 'chorus'])
 export const KEYWORDS = new Set(['track', 'section', 'effect'])
 export const DURATIONS = new Set(['w', 'h', 'q', 'e', 's'])

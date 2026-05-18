@@ -325,6 +325,7 @@ Params can appear in any order and are all optional.
 
 ```
 serce compile <dir>                → <song_name>.wav
+serce compile <dir> --midi         → <song_name>.mid  (MIDI file)
 serce compile <dir> --ir           → <song_name>.ir.json  (skip audio rendering)
 serce compile <dir> --follow       → print section names as they are rendered
 serce run <dir>                    → compile and play immediately (no file written)
@@ -336,10 +337,27 @@ serce check <dir>                  → validate only, no output
 
 `serce run` renders the song to a temporary WAV file, plays it via the system audio player (`afplay` on macOS, `aplay` on Linux, PowerShell on Windows), then deletes the temp file. Ctrl+C stops playback and cleans up the temp file.
 
+### MIDI output
+
+`--midi` exports a standard `.mid` file (Format 1) that can be opened in any DAW or notation software. Instruments are mapped to General MIDI program numbers (piano = 0, classical guitar = 24, electric guitar = 27, etc.). Tempo, time signature, and `transpose` params are all preserved.
+
+**What is NOT exported to MIDI:** effects (reverb, delay, distortion) are dropped — MIDI carries only notes, not audio processing. The `.mid` file will sound dry.
+
+**Using the MIDI file in a DAW (GarageBand, Ableton, Logic, etc.):**
+
+1. Compile to MIDI: `serce compile my_song --midi`
+2. Open the `.mid` file in your DAW — each Serce track becomes a separate MIDI track
+3. Assign a software instrument (VST/AU plugin) to each track for realistic sounds
+4. Add effects (reverb, delay, EQ, compression) directly in the DAW on each track
+5. Mix and export from the DAW
+
+This workflow lets you use Serce for composition and the DAW for professional mixing and sound design.
+
 **Running from source:**
 ```bash
 npm run build
 node dist/cli/index.js compile /path/to/song
+node dist/cli/index.js compile /path/to/song --midi
 node dist/cli/index.js run /path/to/song --follow
 ```
 
