@@ -4,7 +4,7 @@ import { Token, parseParam } from '../lexer/tokens.js'
 import {
   FileAST, SongAST, DirectiveNode, SectionNode, TrackNode,
   EffectNode, BarNode, EventNode, NoteNode, ChordNode,
-  RestNode, InlineChordNode, Duration
+  RestNode, InlineChordNode, SlideNode, Duration
 } from './ast.js'
 
 export function parseFile(source: string, filePath: string): FileAST {
@@ -59,6 +59,15 @@ export function parseFile(source: string, filePath: string): FileAST {
         events.push(node)
       } else if (peek().kind === 'LBRACKET') {
         events.push(parseInlineChord())
+      } else if (peek().kind === 'SLIDE') {
+        const raw = consume().value   // e.g. 'E4->G4/q'
+        const arrowIdx = raw.indexOf('->')
+        const slashIdx = raw.lastIndexOf('/')
+        const fromPitch = raw.slice(0, arrowIdx)
+        const toPitch = raw.slice(arrowIdx + 2, slashIdx)
+        const dur = raw.slice(slashIdx + 1) as Duration
+        const node: SlideNode = { type: 'slide', fromPitch, toPitch, duration: dur }
+        events.push(node)
       } else {
         break
       }

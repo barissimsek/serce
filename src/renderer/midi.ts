@@ -148,6 +148,8 @@ export function buildMidi(ir: SongIR): Buffer {
             notes = chordToMidiNotes(event.name, event.octave).map(n => n + transpose)
           } else if (event.type === 'inline_chord') {
             notes = event.pitches.map(p => pitchToMidi(p) + transpose)
+          } else if (event.type === 'slide') {
+            notes = [pitchToMidi(event.toPitch) + transpose]
           }
 
           for (const note of notes) {

@@ -59,5 +59,6 @@ function buildEvent(event: EventNode): EventIR {
     case 'chord':        return { type: 'chord', name: event.name, octave: event.octave, duration: event.duration }
     case 'rest':         return { type: 'rest', duration: event.duration }
     case 'inline_chord': return { type: 'inline_chord', pitches: event.pitches, duration: event.duration }
+    case 'slide':        return { type: 'slide', fromPitch: event.fromPitch, toPitch: event.toPitch, duration: event.duration }
   }
 }

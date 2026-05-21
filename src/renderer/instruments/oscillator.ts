@@ -4,13 +4,17 @@ export function playOscillator(
   freq: number,
   startTime: number,
   duration: number,
-  destination: AudioNode
+  destination: AudioNode,
+  slideToFreq?: number
 ): void {
   const osc = ctx.createOscillator()
   const gain = ctx.createGain()
 
   osc.type = type
-  osc.frequency.value = freq
+  osc.frequency.setValueAtTime(freq, startTime)
+  if (slideToFreq !== undefined) {
+    osc.frequency.linearRampToValueAtTime(slideToFreq, startTime + duration)
+  }
 
   gain.gain.setValueAtTime(0, startTime)
   gain.gain.linearRampToValueAtTime(0.3, startTime + 0.005)

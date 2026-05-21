@@ -120,6 +120,21 @@ Examples: `C4/q` `F#3/h` `Bb4/e`
 
 A rest is written as `-/<duration>`, e.g. `-/q` for a quarter rest.
 
+### Slides
+
+A slide glides the pitch from one note to another over a single duration. The arrow `->` separates the start and end pitch.
+
+Format: `<fromPitch>-><toPitch>/<duration>`
+
+Examples: `A4->B4/q` `Bb4->D5/q` `E4->A4/h`
+
+The duration is the total time of the glide — pitch moves continuously from start to end within that window. Both pitches follow the same note format as regular notes (letter, optional accidental, octave).
+
+```
+track guitar classical_guitar
+  |1| D3/e G3/e A3/e A3->D4/h
+```
+
 ### Chords
 
 Chords are first-class citizens. The lexer distinguishes a chord token from a note by the quality suffix that follows the root — not by letter case (both notes and chords start with an uppercase A–G).
@@ -249,7 +264,8 @@ The Song IR is the architectural boundary. Phase 1 is language parsing; Phase 2 
               "events": [
                 { "type": "note",  "pitch": "C2",  "duration": "q" },
                 { "type": "chord", "name": "Cmaj", "octave": 4, "duration": "h" },
-                { "type": "rest",                  "duration": "q" }
+                { "type": "rest",                  "duration": "q" },
+                { "type": "slide", "fromPitch": "A4", "toPitch": "D5", "duration": "q" }
               ]
             }
           ]

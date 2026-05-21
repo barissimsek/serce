@@ -1,6 +1,7 @@
 import { Token, TokenKind, INSTRUMENTS, EFFECT_TYPES, KEYWORDS, DURATIONS } from './tokens.js'
 
 const NOTE_RE   = /^[A-G][#b]?\d\/[whqes]$/
+const SLIDE_RE  = /^[A-G][#b]?\d->[A-G][#b]?\d\/[whqes]$/
 const CHORD_RE  = /^[A-G][#b]?(maj7|min7|maj|min|dim|aug|sus2|sus4|7)\d?\/[whqes]$/
 const REST_RE   = /^-\/([whqes])$/
 const PITCH_RE  = /^[A-G][#b]?\d$/   // pitch only, no duration — used inside [...]
@@ -11,6 +12,7 @@ function classifyWord(word: string, insideBracket: boolean): TokenKind {
   if (insideBracket && PITCH_RE.test(word)) return 'NOTE_PITCH'
   if (REST_RE.test(word)) return 'REST'
   if (CHORD_RE.test(word)) return 'CHORD'   // must come before NOTE_RE
+  if (SLIDE_RE.test(word)) return 'SLIDE'   // must come before NOTE_RE
   if (NOTE_RE.test(word)) return 'NOTE'
   if (BAR_RE.test(word)) return 'BAR_MARKER'
   if (PARAM_RE.test(word)) return 'PARAM'

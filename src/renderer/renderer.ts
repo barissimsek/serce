@@ -76,6 +76,8 @@ function renderBar(
       for (const pitch of event.pitches) {
         playInstrumentVoice(ctx, instrument, instrumentParams, pitchToFrequency(pitch), barStart + offset, duration, destination)
       }
+    } else if (event.type === 'slide') {
+      playInstrumentVoice(ctx, instrument, instrumentParams, pitchToFrequency(event.fromPitch), barStart + offset, duration, destination, pitchToFrequency(event.toPitch))
     }
     // rest: advance offset without scheduling anything
 

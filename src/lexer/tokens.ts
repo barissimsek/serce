@@ -7,6 +7,7 @@ export type TokenKind =
   | 'IDENTIFIER'   // track/section names
   | 'BAR_MARKER'   // |1|, |2| → value: '1', '2'
   | 'NOTE'         // C4/q, F#3/h, Bb4/e → value: full string
+  | 'SLIDE'        // E4->G4/q → value: full string
   | 'CHORD'        // Cmaj/h, Amin4/q, G7/e → value: full string
   | 'REST'         // -/q, -/h → value: duration char only: 'q'
   | 'NOTE_PITCH'   // C4, E4 inside [...] inline chords → value: pitch string

@@ -46,7 +46,7 @@ export interface BarNode {
   line: number
 }
 
-export type EventNode = NoteNode | ChordNode | RestNode | InlineChordNode
+export type EventNode = NoteNode | ChordNode | RestNode | InlineChordNode | SlideNode
 
 export interface NoteNode {
   type: 'note'
@@ -69,6 +69,13 @@ export interface RestNode {
 export interface InlineChordNode {
   type: 'inline_chord'
   pitches: string[]  // e.g. ['C4', 'E4', 'G4']
+  duration: Duration
+}
+
+export interface SlideNode {
+  type: 'slide'
+  fromPitch: string  // e.g. 'E4'
+  toPitch: string    // e.g. 'G4'
   duration: Duration
 }
 

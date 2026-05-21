@@ -40,7 +40,7 @@ export interface BarIR {
   events: EventIR[]
 }
 
-export type EventIR = NoteEventIR | ChordEventIR | RestEventIR | InlineChordEventIR
+export type EventIR = NoteEventIR | ChordEventIR | RestEventIR | InlineChordEventIR | SlideEventIR
 
 export interface NoteEventIR {
   type: 'note'
@@ -63,5 +63,12 @@ export interface RestEventIR {
 export interface InlineChordEventIR {
   type: 'inline_chord'
   pitches: string[]
+  duration: Duration
+}
+
+export interface SlideEventIR {
+  type: 'slide'
+  fromPitch: string
+  toPitch: string
   duration: Duration
 }

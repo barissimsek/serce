@@ -11,26 +11,30 @@ export function playInstrumentVoice(
   freq: number,
   startTime: number,
   duration: number,
-  destination: AudioNode
+  destination: AudioNode,
+  slideToFreq?: number
 ): void {
   const transpose = params.transpose ?? 0
   const transposedFreq = transpose === 0 ? freq : freq * Math.pow(2, transpose / 12)
+  const transposedSlide = slideToFreq !== undefined
+    ? (transpose === 0 ? slideToFreq : slideToFreq * Math.pow(2, transpose / 12))
+    : undefined
 
   switch (instrument) {
     case 'sine':
     case 'square':
     case 'sawtooth':
     case 'triangle':
-      playOscillator(ctx, instrument, transposedFreq, startTime, duration, destination)
+      playOscillator(ctx, instrument, transposedFreq, startTime, duration, destination, transposedSlide)
       break
     case 'electric_guitar':
-      playElectricGuitar(ctx, transposedFreq, startTime, duration, destination)
+      playElectricGuitar(ctx, transposedSlide ?? transposedFreq, startTime, duration, destination)
       break
     case 'classical_guitar':
-      playClassicalGuitar(ctx, transposedFreq, startTime, duration, destination)
+      playClassicalGuitar(ctx, transposedSlide ?? transposedFreq, startTime, duration, destination)
       break
     case 'piano':
-      playPiano(ctx, transposedFreq, startTime, duration, destination)
+      playPiano(ctx, transposedSlide ?? transposedFreq, startTime, duration, destination)
       break
   }
 }

@@ -1,0 +1,6 @@
+// First bar — D Aeolian, acoustic guitar
+// A string fret 5 → G/B strings fret 3 → e string frets 3, 5, then slide 6→10 (Bb4→D5)
+section intro
+  track guitar classical_guitar volume:0.85
+    effect reverb decay:2.5 mix:0.25
+    |1| G3/e A#3/e D4/e G4/e A4/q Bb4->D5/q
